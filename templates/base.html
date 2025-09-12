@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}My App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}" />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="header-content">
+        <img
+          src="{{ url_for('static', path='images/logo.png') }}"
+          alt="Logo"
+          class="header-logo"
+        />
+        <nav>
+          <a href="/">🏠 Dashboard</a>
+          <a href="/stranke_form">➕ Dodaj Stranko</a>
+          <a href="/stranke_list">📋 Seznam Strank</a>
+          <a href="/generiraj_racun_form">⚙️ Generiraj Račun</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>{% block content %}{% endblock %}</main>
+  </body>
+</html>

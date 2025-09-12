@@ -1,34 +1,21 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Generiraj Račun</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}" />
-  </head>
-  <body>
-    <div class="container">
-      <img
-        src="{{ url_for('static', path='images/logo.png') }}"
-        alt="Company Logo"
-        class="logo"
-      />
+{% extends "base.html" %} {% block title %}Generiraj Račun{% endblock %} {%
+block content %}
+<div class="container">
+  <h1>Generiraj Račun</h1>
+  <form method="post" action="/generiraj_racun_form">
+    <label for="stranka_id">Stranka ID:</label>
+    <input type="number" id="stranka_id" name="stranka_id" required />
+    <button type="submit">Generiraj</button>
+  </form>
 
-      <h1>Generiraj Račun</h1>
-      <form method="post" action="/generiraj_racun_form">
-        <label for="stranka_id">Stranka ID:</label>
-        <input type="number" id="stranka_id" name="stranka_id" required />
-        <button type="submit">Generiraj</button>
-      </form>
-
-      {% if result %}
-      <div class="result {% if 'No data' in result.message %}error{% endif %}">
-        <p><strong>{{ result.message }}</strong></p>
-        {% if result.koncni_znesek is defined %}
-        <p>Stranka ID: {{ result.stranka_id }}</p>
-        <p>Koncni znesek: {{ "%.2f"|format(result.koncni_znesek) }}</p>
-        {% endif %}
-      </div>
-      {% endif %}
-    </div>
-  </body>
-</html>
+  {% if result %}
+  <div class="result {% if 'No data' in result.message %}error{% endif %}">
+    <p><strong>{{ result.message }}</strong></p>
+    {% if result.koncni_znesek is defined %}
+    <p>Stranka ID: {{ result.stranka_id }}</p>
+    <p>Koncni znesek: {{ "%.2f"|format(result.koncni_znesek) }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
