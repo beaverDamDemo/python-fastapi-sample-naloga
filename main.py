@@ -5,9 +5,11 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from db import SessionLocal, FastapiVhodniPodatki, FastapiGeneriraniRacuni
+from schemas.racun import RacunCreate, RacunUpdate, RacunOut
+from routers import generirani_racuni
 
 app = FastAPI()
-
+app.include_router(generirani_racuni.router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
@@ -18,12 +20,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-@app.get("/")
-async def read_root(db: Session = Depends(get_db)):
-    result = db.execute(text("SELECT now()")).fetchone()
-    return {"Current Time": result[0]}
 
 
 @app.get("/time")
