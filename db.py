@@ -1,8 +1,8 @@
 import os
-from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
-from sqlalchemy import create_engine, Column, Integer, String, Float
-
+from sqlalchemy import create_engine, Column, Integer, String, Float, TIMESTAMP
+from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -12,13 +12,21 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 
+class FastapiVhodniPodatki(Base):
+    __tablename__ = "fastapi_vhodni_podatki"
+
+    id = Column(Integer, primary_key=True, index=True)
+    casovna_znacka = Column(TIMESTAMP(timezone=True))
+    poraba = Column(Float)
+    dinamicne_cene = Column(Float)
+    stranka_id = Column(Integer)  # Foreign key to stranke.id
+
+
 class FastapiGeneriraniRacuni(Base):
     __tablename__ = "fastapi_generirani_racuni"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, nullable=False)
-    user_name = Column(String, nullable=False)
-    user_surname = Column(String, nullable=False)
+    stranka_id = Column(Integer, nullable=False)
     koncni_znesek = Column(Float, nullable=False)
 
 
