@@ -9,9 +9,10 @@
     <div class="container">
       <img
         src="{{ url_for('static', path='images/logo.png') }}"
-        alt="Logo"
-        width="48"
+        alt="Company Logo"
+        class="logo"
       />
+
       <h1>Generiraj Račun</h1>
       <form method="post" action="/generiraj_racun_form">
         <label for="stranka_id">Stranka ID:</label>

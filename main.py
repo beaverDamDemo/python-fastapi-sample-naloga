@@ -9,10 +9,12 @@ from schemas.racun import RacunCreate, RacunUpdate, RacunOut
 from routers import generirani_racuni
 from routers.stranke import router as stranke_router
 from database_focal import FastapiStranke
+from routers.stranke_form import router as stranke_form_router
 
 
 app = FastAPI()
 app.include_router(generirani_racuni.router)
+app.include_router(stranke_form_router)
 app.include_router(stranke_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
@@ -109,6 +111,11 @@ def handle_form(
     return templates.TemplateResponse(
         "generiraj_racun.html", {"request": request, "result": result}
     )
+
+
+@app.get("/stranke_form", response_class=HTMLResponse)
+def show_stranka_form(request: Request):
+    return templates.TemplateResponse("create_stranka.html", {"request": request})
 
 
 @app.get("/stranke_list", response_class=HTMLResponse)

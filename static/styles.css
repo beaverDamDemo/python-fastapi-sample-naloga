@@ -1,68 +1,164 @@
+/* === Global Layout & Typography === */
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(to right, #f9f9f9, #eaeaea);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  margin: 0;
 }
+
 .container {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
   width: 100%;
-  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
+
+/* === Logo === */
+.logo {
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  max-width: 120px;
+  height: auto;
+}
+
+/* === Headings === */
 h1 {
   text-align: center;
   color: #333;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
 }
-label {
+
+/* === Buttons === */
+button,
+button[type="submit"] {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover,
+button[type="submit"]:hover {
+  background-color: #e68900;
+}
+
+/* === Form: Create Stranka === */
+form label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #555;
+  font-weight: 600;
+  color: #444;
 }
-input[type="number"] {
+
+form input {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  border-radius: 6px;
   font-size: 1rem;
+  transition: border-color 0.2s ease;
 }
-button {
+
+form input:focus {
+  border-color: #ff9800;
+  outline: none;
+}
+
+/* === Result Box === */
+.result {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f0f8ff;
+  border-left: 4px solid #2196f3;
+  border-radius: 6px;
+  color: #333;
+}
+
+.result.error {
+  background-color: #ffecec;
+  border-left-color: #f44336;
+}
+
+/* === Table: List Stranke === */
+table {
   width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th,
+td {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+/* === Dashboard === */
+.dashboard {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.dashboard a {
+  display: block;
+  margin: 1rem 0;
   padding: 0.75rem;
   background: #0078d4;
   color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
   transition: background 0.2s ease;
 }
-button:hover {
+
+.dashboard a:hover {
   background: #005a9e;
 }
-.result {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  border-radius: 4px;
-  background: #f0f8ff;
-  border: 1px solid #cce5ff;
-}
-.error {
-  background: #fff3f3;
-  border: 1px solid #f5c2c2;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 1rem auto;
-  max-width: 150px;
-  height: auto;
+/* === Responsive Layout === */
+@media (max-width: 600px) {
+  .container,
+  .dashboard {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  form input,
+  button {
+    font-size: 0.95rem;
+  }
+
+  table th,
+  table td {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
 }
