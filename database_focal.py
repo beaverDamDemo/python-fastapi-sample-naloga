@@ -30,5 +30,15 @@ class FastapiGeneriraniRacuni(Base):
     koncni_znesek = Column(Float, nullable=False)
 
 
+class FastapiStranke(Base):
+    __tablename__ = "fastapi_stranke"
+
+    id = Column(Integer, primary_key=True, index=True)
+    stranka_id = Column(Integer, nullable=False, unique=True)
+    firstname = Column(String, nullable=False)
+    lastname = Column(String, nullable=False)
+    address = Column(String, nullable=False)
+
+
 # --- Create tables automatically ---
 Base.metadata.create_all(bind=engine)

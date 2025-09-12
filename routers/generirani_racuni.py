@@ -1,6 +1,6 @@
 from fastapi import APIRouter, FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from db import SessionLocal, FastapiGeneriraniRacuni
+from database_focal import SessionLocal, FastapiGeneriraniRacuni
 from schemas.racun import RacunCreate, RacunUpdate, RacunOut
 
 router = APIRouter(prefix="/racuni", tags=["Računi"])

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nadzorna Plošča</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}" />
+    <style>
+      .dashboard {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .dashboard h1 {
+        margin-bottom: 2rem;
+      }
+      .dashboard a {
+        display: block;
+        margin: 1rem 0;
+        padding: 0.75rem;
+        background: #0078d4;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background 0.2s ease;
+      }
+      .dashboard a:hover {
+        background: #005a9e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard">
+      <img
+        src="{{ url_for('static', path='logo.png') }}"
+        alt="Company Logo"
+        class="logo"
+      />
+      <h1>Nadzorna Plošča</h1>
+      <a href="/stranke_form">➕ Dodaj Stranko</a>
+      <a href="/stranke_list">📋 Seznam Strank</a>
+      <a href="/generiraj_racun_form">⚙️ Generiraj Račun</a>
+    </div>
+  </body>
+</html>

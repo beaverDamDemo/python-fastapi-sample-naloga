@@ -4,12 +4,16 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from sqlalchemy.orm import Session
-from db import SessionLocal, FastapiVhodniPodatki, FastapiGeneriraniRacuni
+from database_focal import SessionLocal, FastapiVhodniPodatki, FastapiGeneriraniRacuni
 from schemas.racun import RacunCreate, RacunUpdate, RacunOut
 from routers import generirani_racuni
+from routers.stranke import router as stranke_router
+from database_focal import FastapiStranke
+
 
 app = FastAPI()
 app.include_router(generirani_racuni.router)
+app.include_router(stranke_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
@@ -105,3 +109,18 @@ def handle_form(
     return templates.TemplateResponse(
         "generiraj_racun.html", {"request": request, "result": result}
     )
+
+
+@app.get("/stranke_list", response_class=HTMLResponse)
+def list_stranke(request: Request):
+    db = SessionLocal()
+    stranke = db.query(FastapiStranke).all()
+    db.close()
+    return templates.TemplateResponse(
+        "list_stranke.html", {"request": request, "stranke": stranke}
+    )
+
+
+@app.get("/", response_class=HTMLResponse)
+def dashboard(request: Request):
+    return templates.TemplateResponse("dashboard.html", {"request": request})

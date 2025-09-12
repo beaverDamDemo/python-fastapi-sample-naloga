@@ -1,0 +1,60 @@
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from database_focal import SessionLocal, FastapiStranke
+from schemas.stranke import StrankaCreate, StrankaUpdate, StrankaOut
+
+router = APIRouter(prefix="/stranke", tags=["Stranke"])
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+@router.post("/", response_model=StrankaOut)
+def create_stranka(stranka: StrankaCreate, db: Session = Depends(get_db)):
+    new_stranka = FastapiStranke(**stranka.dict())
+    db.add(new_stranka)
+    db.commit()
+    db.refresh(new_stranka)
+    return new_stranka
+
+
+@router.get("/", response_model=list[StrankaOut])
+def read_all_stranke(db: Session = Depends(get_db)):
+    return db.query(FastapiStranke).all()
+
+
+@router.get("/{stranka_id}", response_model=StrankaOut)
+def read_stranka(stranka_id: int, db: Session = Depends(get_db)):
+    stranka = db.query(FastapiStranke).filter_by(stranka_id=stranka_id).first()
+    if not stranka:
+        raise HTTPException(status_code=404, detail="Stranka not found")
+    return stranka
+
+
+@router.put("/{stranka_id}", response_model=StrankaOut)
+def update_stranka(
+    stranka_id: int, update: StrankaUpdate, db: Session = Depends(get_db)
+):
+    stranka = db.query(FastapiStranke).filter_by(stranka_id=stranka_id).first()
+    if not stranka:
+        raise HTTPException(status_code=404, detail="Stranka not found")
+    for key, value in update.dict().items():
+        setattr(stranka, key, value)
+    db.commit()
+    db.refresh(stranka)
+    return stranka
+
+
+@router.delete("/{stranka_id}")
+def delete_stranka(stranka_id: int, db: Session = Depends(get_db)):
+    stranka = db.query(FastapiStranke).filter_by(stranka_id=stranka_id).first()
+    if not stranka:
+        raise HTTPException(status_code=404, detail="Stranka not found")
+    db.delete(stranka)
+    db.commit()
+    return {"message": f"Stranka {stranka_id} deleted"}
