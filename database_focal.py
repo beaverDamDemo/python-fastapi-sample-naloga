@@ -1,8 +1,17 @@
 import os
 from dotenv import load_dotenv
-from sqlalchemy import create_engine, Column, Integer, String, Float, TIMESTAMP
+from sqlalchemy import (
+    create_engine,
+    Column,
+    Integer,
+    String,
+    Float,
+    TIMESTAMP,
+    Identity,
+)
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import text
 
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -33,8 +42,7 @@ class FastapiGeneriraniRacuni(Base):
 class FastapiStranke(Base):
     __tablename__ = "fastapi_stranke"
 
-    id = Column(Integer, primary_key=True, index=True)
-    stranka_id = Column(Integer, nullable=False, unique=True)
+    stranka_id = Column(Integer, Identity(always=True), primary_key=True, index=True)
     firstname = Column(String, nullable=False)
     lastname = Column(String, nullable=False)
     address = Column(String, nullable=False)

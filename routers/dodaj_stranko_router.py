@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from database_focal import SessionLocal, FastapiStranke
 from sqlalchemy.orm import Session
 from random import randint
+from sqlalchemy import func
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -30,9 +31,14 @@ def handle_dodaj_stranko(
     address: str = Form(...),
     db: Session = Depends(get_db),
 ):
+    # max_id = db.query(func.max(FastapiStranke.stranka_id)).scalar() or 1000
+    # stranka_id = max_id + 1
     new_stranka = FastapiStranke(
         firstname=firstname, lastname=lastname, address=address
     )
+    # new_stranka = FastapiStranke(
+    #     stranka_id=stranka_id, firstname=firstname, lastname=lastname, address=address
+    # )
     db.add(new_stranka)
     db.commit()
     db.refresh(new_stranka)
