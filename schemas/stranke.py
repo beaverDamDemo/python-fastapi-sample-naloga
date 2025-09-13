@@ -2,7 +2,6 @@ from pydantic import BaseModel
 
 
 class StrankaCreate(BaseModel):
-    stranka_id: int
     firstname: str
     lastname: str
     address: str
@@ -16,6 +15,10 @@ class StrankaUpdate(BaseModel):
 
 class StrankaOut(StrankaCreate):
     id: int
+    stranka_id: int
+    firstname: str
+    lastname: str
+    address: str
 
     class Config:
         orm_mode = True

@@ -50,7 +50,7 @@ def generiraj_racun(stranka_id: int, db: Session = Depends(get_db)):
     koncni_znesek = 0.0
     for row in rows:
         if row.poraba is not None and row.dinamicne_cene is not None:
-            koncni_znesek += row.poraba * row.dinamicne_cene
+            koncni_znesek += row.poraba * row.dinamicne_cene * 0.25
 
     # 3. Insert into fastapi_generirani_racuni
     new_racun = FastapiGeneriraniRacuni(

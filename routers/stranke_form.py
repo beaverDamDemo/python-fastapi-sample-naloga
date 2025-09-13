@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from database_focal import SessionLocal, FastapiStranke
 from sqlalchemy.orm import Session
+from random import randint
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -24,12 +25,12 @@ def show_stranka_form(request: Request):
 @router.post("/stranke_form", response_class=HTMLResponse)
 def handle_stranka_form(
     request: Request,
-    stranka_id: int = Form(...),
     firstname: str = Form(...),
     lastname: str = Form(...),
     address: str = Form(...),
     db: Session = Depends(get_db),
 ):
+    stranka_id = randint(1, 999999)
     new_stranka = FastapiStranke(
         stranka_id=stranka_id, firstname=firstname, lastname=lastname, address=address
     )
