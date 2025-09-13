@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database_focal import SessionLocal, FastapiStranke
-from schemas.stranke import StrankaCreate, StrankaUpdate, StrankaOut
+from schemas.stranke_schema import StrankaCreate, StrankaUpdate, StrankaOut
 
 router = APIRouter(prefix="/stranke", tags=["Stranke"])
 

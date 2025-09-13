@@ -5,15 +5,15 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from database_focal import SessionLocal, FastapiVhodniPodatki, FastapiGeneriraniRacuni
-from schemas.racun import RacunCreate, RacunUpdate, RacunOut
-from routers import generirani_racuni
-from routers.stranke import router as stranke_router
+from schemas.racun_schema import RacunCreate, RacunUpdate, RacunOut
+from routers import generirani_racuni_router
+from routers.stranke_router import router as stranke_router
 from database_focal import FastapiStranke
-from routers.stranke_form import router as stranke_form_router
+from routers.stranke_form_router import router as stranke_form_router
 
 
 app = FastAPI()
-app.include_router(generirani_racuni.router)
+app.include_router(generirani_racuni_router.router)
 app.include_router(stranke_form_router)
 app.include_router(stranke_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
