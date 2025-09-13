@@ -118,13 +118,13 @@ def show_stranka_form(request: Request):
     return templates.TemplateResponse("create_stranka.html", {"request": request})
 
 
-@app.get("/stranke_list", response_class=HTMLResponse)
-def list_stranke(request: Request):
+@app.get("/seznam_strank", response_class=HTMLResponse)
+def seznam_strank(request: Request):
     db = SessionLocal()
     stranke = db.query(FastapiStranke).all()
     db.close()
     return templates.TemplateResponse(
-        "list_stranke.html", {"request": request, "stranke": stranke}
+        "seznam_strank.html", {"request": request, "stranke": stranke}
     )
 
 

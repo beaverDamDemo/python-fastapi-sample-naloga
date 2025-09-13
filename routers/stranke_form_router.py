@@ -19,7 +19,7 @@ def get_db():
 
 @router.get("/stranke_form", response_class=HTMLResponse)
 def show_stranka_form(request: Request):
-    return templates.TemplateResponse("create_stranka.html", {"request": request})
+    return templates.TemplateResponse("ustvari_stanko.html", {"request": request})
 
 
 @router.post("/stranke_form", response_class=HTMLResponse)
@@ -46,15 +46,15 @@ def handle_stranka_form(
         "address": address,
     }
     return templates.TemplateResponse(
-        "create_stranka.html", {"request": request, "result": result}
+        "ustvari_stanko.html", {"request": request, "result": result}
     )
 
 
-@router.get("/stranke_list", response_class=HTMLResponse)
-def list_stranke(request: Request):
+@router.get("/seznam_strank", response_class=HTMLResponse)
+def seznam_strank(request: Request):
     db = SessionLocal()
     stranke = db.query(FastapiStranke).all()
     db.close()
     return templates.TemplateResponse(
-        "list_stranke.html", {"request": request, "stranke": stranke}
+        "seznam_strank.html", {"request": request, "stranke": stranke}
     )
