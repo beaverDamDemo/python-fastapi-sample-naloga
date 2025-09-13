@@ -114,7 +114,7 @@ def handle_form(
 
 
 @app.get("/dodaj_stranko", response_class=HTMLResponse)
-def show_stranka_form(request: Request):
+def show_dodaj_stranko(request: Request):
     return templates.TemplateResponse("create_stranka.html", {"request": request})
 
 

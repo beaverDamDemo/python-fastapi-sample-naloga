@@ -18,21 +18,20 @@ def get_db():
 
 
 @router.get("/dodaj_stranko", response_class=HTMLResponse)
-def show_stranka_form(request: Request):
+def show_dodaj_stranko(request: Request):
     return templates.TemplateResponse("dodaj_stranko.html", {"request": request})
 
 
 @router.post("/dodaj_stranko", response_class=HTMLResponse)
-def handle_stranka_form(
+def handle_dodaj_stranko(
     request: Request,
     firstname: str = Form(...),
     lastname: str = Form(...),
     address: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    stranka_id = randint(1, 999999)
     new_stranka = FastapiStranke(
-        stranka_id=stranka_id, firstname=firstname, lastname=lastname, address=address
+        firstname=firstname, lastname=lastname, address=address
     )
     db.add(new_stranka)
     db.commit()
@@ -40,10 +39,10 @@ def handle_stranka_form(
 
     result = {
         "message": "Stranka uspešno dodana!",
-        "stranka_id": stranka_id,
-        "firstname": firstname,
-        "lastname": lastname,
-        "address": address,
+        "stranka_id": new_stranka.stranka_id,
+        "firstname": new_stranka.firstname,
+        "lastname": new_stranka.lastname,
+        "address": new_stranka.address,
     }
     return templates.TemplateResponse(
         "dodaj_stranko.html", {"request": request, "result": result}
