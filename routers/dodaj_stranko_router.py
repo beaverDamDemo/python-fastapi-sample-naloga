@@ -17,12 +17,12 @@ def get_db():
         db.close()
 
 
-@router.get("/stranke_form", response_class=HTMLResponse)
+@router.get("/dodaj_stranko", response_class=HTMLResponse)
 def show_stranka_form(request: Request):
-    return templates.TemplateResponse("ustvari_stanko.html", {"request": request})
+    return templates.TemplateResponse("dodaj_stranko.html", {"request": request})
 
 
-@router.post("/stranke_form", response_class=HTMLResponse)
+@router.post("/dodaj_stranko", response_class=HTMLResponse)
 def handle_stranka_form(
     request: Request,
     firstname: str = Form(...),
@@ -46,7 +46,7 @@ def handle_stranka_form(
         "address": address,
     }
     return templates.TemplateResponse(
-        "ustvari_stanko.html", {"request": request, "result": result}
+        "dodaj_stranko.html", {"request": request, "result": result}
     )
 
 

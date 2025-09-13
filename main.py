@@ -9,12 +9,12 @@ from schemas.racun_schema import RacunCreate, RacunUpdate, RacunOut
 from routers import generirani_racuni_router
 from routers.stranke_router import router as stranke_router
 from database_focal import FastapiStranke
-from routers.stranke_form_router import router as stranke_form_router
+from routers.dodaj_stranko_router import router as dodaj_stranko_router
 
 
 app = FastAPI()
 app.include_router(generirani_racuni_router.router)
-app.include_router(stranke_form_router)
+app.include_router(dodaj_stranko_router)
 app.include_router(stranke_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
@@ -34,8 +34,8 @@ def get_time(db: Session = Depends(get_db)):
     return {"server_time": result[0]}
 
 
-@app.post("/generiraj_racun/")
-def generiraj_racun(stranka_id: int, db: Session = Depends(get_db)):
+@app.post("/ustvari_racun/")
+def ustvari_racun(stranka_id: int, db: Session = Depends(get_db)):
     # 1. Get all rows for this stranka_id
     rows = (
         db.query(FastapiVhodniPodatki)
@@ -67,13 +67,13 @@ def generiraj_racun(stranka_id: int, db: Session = Depends(get_db)):
     }
 
 
-@app.get("/generiraj_racun_form", response_class=HTMLResponse)
+@app.get("/ustvari_racun", response_class=HTMLResponse)
 def show_form(request: Request):
-    return templates.TemplateResponse("generiraj_racun.html", {"request": request})
+    return templates.TemplateResponse("ustvari_racun.html", {"request": request})
 
 
 # Handle form submission
-@app.post("/generiraj_racun_form", response_class=HTMLResponse)
+@app.post("/ustvari_racun", response_class=HTMLResponse)
 def handle_form(
     request: Request, stranka_id: int = Form(...), db: Session = Depends(get_db)
 ):
@@ -87,7 +87,7 @@ def handle_form(
     if not rows:
         result = {"message": f"No data found for stranka_id {stranka_id}"}
         return templates.TemplateResponse(
-            "generiraj_racun.html", {"request": request, "result": result}
+            "ustvari_racun.html", {"request": request, "result": result}
         )
 
     koncni_znesek = sum(
@@ -104,16 +104,16 @@ def handle_form(
     db.refresh(new_racun)
 
     result = {
-        "message": "Račun generated successfully",
+        "message": "Račun ustvarjen uspešno",
         "stranka_id": stranka_id,
         "koncni_znesek": koncni_znesek,
     }
     return templates.TemplateResponse(
-        "generiraj_racun.html", {"request": request, "result": result}
+        "ustvari_racun.html", {"request": request, "result": result}
     )
 
 
-@app.get("/stranke_form", response_class=HTMLResponse)
+@app.get("/dodaj_stranko", response_class=HTMLResponse)
 def show_stranka_form(request: Request):
     return templates.TemplateResponse("create_stranka.html", {"request": request})
 

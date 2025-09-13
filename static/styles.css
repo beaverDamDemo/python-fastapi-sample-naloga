@@ -1,4 +1,3 @@
-/* === Global Layout & Typography === */
 body {
   display: flex;
   flex-direction: column;
@@ -27,7 +26,6 @@ main {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-/* === Header === */
 .main-header {
   background-color: #0078d4;
   padding: 1rem 2rem;
@@ -56,7 +54,6 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* === Headings === */
 h1 {
   text-align: center;
   color: #333;
@@ -64,7 +61,6 @@ h1 {
   font-size: 1.8rem;
 }
 
-/* === Buttons === */
 button,
 button[type="submit"] {
   width: 100%;
@@ -84,7 +80,6 @@ button[type="submit"]:hover {
   background-color: #e68900;
 }
 
-/* === Forms === */
 form label {
   display: block;
   margin-bottom: 0.5rem;
@@ -107,7 +102,6 @@ form input:focus {
   outline: none;
 }
 
-/* === Result Box === */
 .result {
   margin-top: 2rem;
   padding: 1rem;
@@ -122,7 +116,6 @@ form input:focus {
   border-left-color: #f44336;
 }
 
-/* === Table: List Stranke === */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -140,7 +133,6 @@ th {
   background-color: #f0f0f0;
 }
 
-/* === Dashboard === */
 .dashboard {
   max-width: 600px;
   margin: 0 auto;
@@ -171,7 +163,6 @@ th {
   background: #005a9e;
 }
 
-/* === Responsive Layout === */
 @media (max-width: 600px) {
   .container,
   .dashboard {

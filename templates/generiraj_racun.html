@@ -1,8 +1,8 @@
-{% extends "base.html" %} {% block title %}Generiraj Račun{% endblock %} {%
-block content %}
+{% extends "base.html" %} {% block title %}Ustvari Račun{% endblock %} {% block
+content %}
 <div class="container">
-  <h1>Generiraj Račun</h1>
-  <form method="post" action="/generiraj_racun_form">
+  <h1>Ustvari Račun</h1>
+  <form method="post" action="/ustvari_racun">
     <label for="stranka_id">Stranka ID:</label>
     <input type="number" id="stranka_id" name="stranka_id" required />
     <button type="submit">Generiraj</button>
