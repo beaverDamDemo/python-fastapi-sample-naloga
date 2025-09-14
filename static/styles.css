@@ -6,6 +6,7 @@
   --color-success: #4caf50;
   --color-success-hover: #388e3c;
   --color-error: #f44336;
+  --color-error-hover: #d32f2f;
   --color-info: #2196f3;
   --color-bg-info: #eaf6ff;
   --color-bg-light: #f9f9f9;
@@ -119,6 +120,14 @@ button.class-accent {
 button.class-accent:hover,
 button.class-accent[type="submit"]:hover {
   background: var(--color-accent-hover);
+}
+
+button.class-error {
+  background-color: var(--color-error);
+}
+button.class-error:hover,
+button.class-error[type="submit"]:hover {
+  background: var(--color-error-hover);
 }
 
 a {

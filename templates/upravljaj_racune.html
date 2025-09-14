@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %}Upravljanje Računov{% endblock %} {%
+block content %}
+<div class="container">
+  <h1>🧾 Upravljanje Računov</h1>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Stranka ID</th>
+        <th>Koncni Znesek</th>
+        <th>Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for racun in racuni %}
+      <tr>
+        <td>{{ racun.id }}</td>
+        <td>{{ racun.stranka_id }}</td>
+        <td>{{ "%.2f"|format(racun.koncni_znesek) }}</td>
+        <td>
+          <!-- <a href="/racuni/{{ racun.id }}/edit" class="btn btn-secondary"
+            >Uredi</a
+          > -->
+          <form
+            method="post"
+            action="/racuni/{{ racun.id }}/delete"
+            style="display: inline"
+          >
+            <button type="submit" class="class-error">Izbriši</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

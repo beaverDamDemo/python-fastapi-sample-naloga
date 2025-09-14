@@ -6,6 +6,8 @@ from fastapi import Request
 from fastapi.responses import HTMLResponse
 from database_focal import FastapiStranke
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
+
 
 router = APIRouter(prefix="/racuni", tags=["Računi"])
 
@@ -83,3 +85,20 @@ def delete_racun(racun_id: int, db: Session = Depends(get_db)):
     db.delete(racun)
     db.commit()
     return {"message": f"Račun {racun_id} deleted"}
+
+
+@router.get("/{racun_id}/edit", response_class=HTMLResponse)
+def edit_racun_form(request: Request, racun_id: int, db: Session = Depends(get_db)):
+    racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
+    return templates.TemplateResponse(
+        "edit_racun.html", {"request": request, "racun": racun}
+    )
+
+
+@router.post("/{racun_id}/delete")
+def delete_racun_web(racun_id: int, db: Session = Depends(get_db)):
+    racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
+    if racun:
+        db.delete(racun)
+        db.commit()
+    return RedirectResponse(url="/racuni/pregled", status_code=303)

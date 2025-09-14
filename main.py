@@ -128,6 +128,14 @@ def seznam_strank(request: Request):
     )
 
 
+@app.get("/upravljaj_racune", response_class=HTMLResponse)
+def upravljaj_racune(request: Request, db: Session = Depends(get_db)):
+    racuni = db.query(FastapiGeneriraniRacuni).all()
+    return templates.TemplateResponse(
+        "upravljaj_racune.html", {"request": request, "racuni": racuni}
+    )
+
+
 @app.get("/", response_class=HTMLResponse)
 def dashboard(request: Request):
     return templates.TemplateResponse("dashboard.html", {"request": request})
