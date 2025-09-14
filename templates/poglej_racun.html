@@ -1,25 +1,63 @@
 {% extends "base.html" %} {% block title %}Podrobnosti Računa{% endblock %} {%
 block content %}
-<div class="invoice-container">
-  <h1>Račun št. {{ racun.id }}</h1>
+<div class="invoice-a4">
+  <header class="invoice-header">
+    <div class="company-info">
+      <h1>Moje Podjetje d.o.o.</h1>
+      <p>Ulica 123, 6000 Koper</p>
+      <p>Davčna št.: SI12345678</p>
+    </div>
+    <div class="invoice-meta">
+      <h2>Račun št. {{ racun.id }}</h2>
+      <p>Datum izdaje: {{ racun.datum_izdaje or "—" }}</p>
+    </div>
+  </header>
 
-  <section class="invoice-section">
-    <h2>Podatki o stranki</h2>
+  <section class="client-info">
+    <h3>Podatki o stranki</h3>
     <p><strong>Ime:</strong> {{ stranka.firstname }} {{ stranka.lastname }}</p>
     <p><strong>Naslov:</strong> {{ stranka.address }}</p>
   </section>
 
-  <section class="invoice-section">
-    <h2>Podatki o računu</h2>
-    <p><strong>Datum izdaje:</strong> {{ racun.datum_izdaje or "—" }}</p>
-    <p>
-      <strong>Koncni znesek:</strong> {{ "%.2f"|format(racun.koncni_znesek) }} €
-    </p>
+  <section class="invoice-details">
+    <h3>Podatki o računu</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Opis</th>
+          <th>Količina</th>
+          <th>Cena</th>
+          <th>Skupaj</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Storitev / Izdelek</td>
+          <td>1</td>
+          <td>{{ "%.2f"|format(racun.koncni_znesek) }} €</td>
+          <td>{{ "%.2f"|format(racun.koncni_znesek) }} €</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 
   <div class="invoice-actions">
-    <a href="/racuni" class="btn btn-secondary">⬅ Nazaj</a>
-    <!-- PDF export will go here later -->
+    <button
+      class="btn btn-pdf class-primary"
+      onclick="window.location.href='/upravljaj_racune'"
+    >
+      ⬅ Nazaj
+    </button>
+    <button
+      class="btn btn-pdf class-primary"
+      onclick="alert('PDF export coming soon!')"
+    >
+      Shrani v PDF
+      <img
+        src="{{ url_for('static', path='icons/icons8-pdf-50.png') }}"
+        alt="PDF"
+      />
+    </button>
   </div>
 </div>
 {% endblock %}
