@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, Identity
 from database_focal import Base  # or from .database import Base if modular
-from models.stranke_model import FastapiStranke
 
 
 class FastapiStranke(Base):

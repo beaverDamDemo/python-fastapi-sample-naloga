@@ -1,9 +1,15 @@
-from fastapi import APIRouter, FastAPI, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database_focal import SessionLocal, FastapiGeneriraniRacuni
 from schemas.racun_schema import RacunCreate, RacunUpdate, RacunOut
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from database_focal import FastapiStranke
+from fastapi.templating import Jinja2Templates
 
 router = APIRouter(prefix="/racuni", tags=["Računi"])
+
+templates = Jinja2Templates(directory="templates")
 
 
 def get_db():
@@ -30,7 +36,31 @@ def read_all_racuni(db: Session = Depends(get_db)):
     return db.query(FastapiGeneriraniRacuni).all()
 
 
-# Read one
+@router.get("/isci_stranko", response_class=HTMLResponse)
+def search_stranka(request: Request, search_name: str, db: Session = Depends(get_db)):
+    print("Searching for:", search_name)
+    print("Searching for:", search_name)
+    print("Searching for:", search_name)
+    print("Searching for:", search_name)
+    print("Searching for:", search_name)
+    print("Searching for:", search_name)
+
+    results = (
+        db.query(FastapiStranke)
+        .filter(
+            (FastapiStranke.firstname.ilike(f"%{search_name}%"))
+            | (FastapiStranke.lastname.ilike(f"%{search_name}%"))
+        )
+        .all()
+    )
+
+    return templates.TemplateResponse(
+        "ustvari_racun.html",  # or whatever your template is called
+        {"request": request, "search_results": results},
+    )
+
+
+# Read one, it must be defined AFTER isci_stranko
 @router.get("/{racun_id}", response_model=RacunOut)
 def read_racun(racun_id: int, db: Session = Depends(get_db)):
     racun = db.query(FastapiGeneriraniRacuni).get(racun_id)

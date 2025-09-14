@@ -113,6 +113,14 @@ button[type="submit"]:hover {
   background-color: var(--color-success-hover);
 }
 
+button.class-accent {
+  background-color: var(--color-accent);
+}
+button.class-accent:hover,
+button.class-accent[type="submit"]:hover {
+  background: var(--color-accent-hover);
+}
+
 a {
   background-color: var(--color-accent);
   color: var(--color-text-light);

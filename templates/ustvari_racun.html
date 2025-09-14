@@ -2,6 +2,26 @@
 content %}
 <div class="container">
   <h1>Ustvari Račun</h1>
+  <form method="get" action="/racuni/isci_stranko">
+    <label for="search_name">Išči po imenu ali priimku:</label>
+    <input type="text" id="search_name" name="search_name" required />
+    <button type="submit" class="class-accent">Išči</button>
+  </form>
+
+  {% if search_results %}
+  <div class="result">
+    <p><strong>Najdene stranke:</strong></p>
+    <ul>
+      {% for stranka in search_results %}
+      <li>
+        {{ stranka.firstname }} {{ stranka.lastname }} — ID: {{
+        stranka.stranka_id }}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
   <form method="post" action="/ustvari_racun">
     <label for="stranka_id">Stranka ID:</label>
     <input type="number" id="stranka_id" name="stranka_id" required />
