@@ -20,7 +20,7 @@ block content %}
         <td>{{ "%.2f"|format(racun.koncni_znesek) }}</td>
         <td style="display: flex; gap: 10px; flex-direction: row">
           <button
-            class="class-primary"
+            class="btn btn-primary fullwidth"
             style="flex: 1"
             onclick="window.location.href='/racuni/{{ racun.id }}/poglej_racun'"
           >
@@ -31,7 +31,9 @@ block content %}
             action="/racuni/{{ racun.id }}/delete"
             style="flex: 1"
           >
-            <button type="submit" class="class-error">🗑️ Izbriši</button>
+            <button type="submit" class="btn btn-error fullwidth">
+              🗑️ Izbriši
+            </button>
           </form>
         </td>
       </tr>
