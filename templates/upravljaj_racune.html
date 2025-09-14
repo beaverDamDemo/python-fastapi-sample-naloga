@@ -18,16 +18,20 @@ block content %}
         <td>{{ racun.id }}</td>
         <td>{{ racun.stranka_id }}</td>
         <td>{{ "%.2f"|format(racun.koncni_znesek) }}</td>
-        <td>
-          <!-- <a href="/racuni/{{ racun.id }}/edit" class="btn btn-secondary"
-            >Uredi</a
-          > -->
+        <td style="display: flex; gap: 10px; flex-direction: row">
+          <button
+            class="class-primary"
+            style="flex: 1"
+            onclick="window.location.href='/racuni/{{ racun.id }}/poglej_racun'"
+          >
+            👁️ Poglej
+          </button>
           <form
             method="post"
             action="/racuni/{{ racun.id }}/delete"
-            style="display: inline"
+            style="flex: 1"
           >
-            <button type="submit" class="class-error">Izbriši</button>
+            <button type="submit" class="class-error">🗑️ Izbriši</button>
           </form>
         </td>
       </tr>

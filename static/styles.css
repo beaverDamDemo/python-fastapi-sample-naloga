@@ -1,6 +1,8 @@
 :root {
   --color-primary: #0078d4;
   --color-primary-hover: #005a9e;
+  --color-secondary: #6c757d;
+  --color-secondary-hover: #5a6268;
   --color-accent: #ff9800;
   --color-accent-hover: #e68900;
   --color-success: #4caf50;
@@ -134,7 +136,18 @@ button.class-error:hover,
 button.class-error[type="submit"]:hover {
   background: var(--color-error-hover);
 }
-
+.class-primary {
+  background-color: var(--color-primary);
+}
+.class-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+.class-secondary {
+  background-color: var(--color-secondary);
+}
+.class-secondary:hover {
+  background-color: var(--color-secondary-hover);
+}
 a {
   background-color: var(--color-accent);
   color: var(--color-text-light);
@@ -249,4 +262,27 @@ th {
     font-size: 0.9rem;
     padding: 0.5rem;
   }
+}
+
+.invoice-container {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  padding: 2em;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.invoice-section {
+  margin-bottom: 1.5em;
+}
+
+.invoice-section h2 {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.3em;
+  margin-bottom: 0.5em;
+}
+
+.invoice-actions {
+  margin-top: 2em;
 }

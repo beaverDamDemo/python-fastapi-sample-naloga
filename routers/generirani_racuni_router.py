@@ -64,24 +64,38 @@ def read_racun(racun_id: int, db: Session = Depends(get_db)):
     return racun
 
 
-# Update
-@router.put("/{racun_id}", response_model=RacunOut)
-def update_racun(racun_id: int, update: RacunUpdate, db: Session = Depends(get_db)):
+@router.get("/{racun_id}/poglej_racun", response_class=HTMLResponse)
+def view_racun(request: Request, racun_id: int, db: Session = Depends(get_db)):
     racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
     if not racun:
         raise HTTPException(status_code=404, detail="Račun not found")
-    racun.koncni_znesek = update.koncni_znesek
-    db.commit()
-    db.refresh(racun)
-    return racun
 
+    # Get linked stranka info
+    stranka = db.query(FastapiStranke).filter_by(stranka_id=racun.stranka_id).first()
 
-@router.get("/{racun_id}/edit", response_class=HTMLResponse)
-def edit_racun_form(request: Request, racun_id: int, db: Session = Depends(get_db)):
-    racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
     return templates.TemplateResponse(
-        "edit_racun.html", {"request": request, "racun": racun}
+        "poglej_racun.html", {"request": request, "racun": racun, "stranka": stranka}
     )
+
+
+# Update
+# @router.put("/{racun_id}", response_model=RacunOut)
+# def update_racun(racun_id: int, update: RacunUpdate, db: Session = Depends(get_db)):
+#     racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
+#     if not racun:
+#         raise HTTPException(status_code=404, detail="Račun not found")
+#     racun.koncni_znesek = update.koncni_znesek
+#     db.commit()
+#     db.refresh(racun)
+#     return racun
+
+
+# @router.get("/{racun_id}/edit", response_class=HTMLResponse)
+# def edit_racun_form(request: Request, racun_id: int, db: Session = Depends(get_db)):
+#     racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
+#     return templates.TemplateResponse(
+#         "edit_racun.html", {"request": request, "racun": racun}
+#     )
 
 
 # Delete

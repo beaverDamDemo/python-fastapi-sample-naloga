@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block title %}Podrobnosti Računa{% endblock %} {%
+block content %}
+<div class="invoice-container">
+  <h1>Račun št. {{ racun.id }}</h1>
+
+  <section class="invoice-section">
+    <h2>Podatki o stranki</h2>
+    <p><strong>Ime:</strong> {{ stranka.firstname }} {{ stranka.lastname }}</p>
+    <p><strong>Naslov:</strong> {{ stranka.address }}</p>
+  </section>
+
+  <section class="invoice-section">
+    <h2>Podatki o računu</h2>
+    <p><strong>Datum izdaje:</strong> {{ racun.datum_izdaje or "—" }}</p>
+    <p>
+      <strong>Koncni znesek:</strong> {{ "%.2f"|format(racun.koncni_znesek) }} €
+    </p>
+  </section>
+
+  <div class="invoice-actions">
+    <a href="/racuni" class="btn btn-secondary">⬅ Nazaj</a>
+    <!-- PDF export will go here later -->
+  </div>
+</div>
+{% endblock %}
