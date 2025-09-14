@@ -43,13 +43,20 @@ block content %}
 
   <div class="invoice-actions">
     <a href="/upravljaj_racune" class="btn btn-action">⬅ Nazaj</a>
-    <button class="btn btn-action" onclick="alert('PDF export coming soon!')">
+    <!-- <a href="/racuni/{{ racun.id }}/pdf" class="btn btn-action">
       Shrani v PDF
       <img
         src="{{ url_for('static', path='icons/icons8-pdf-50.png') }}"
         alt="PDF"
       />
-    </button>
+    </a> -->
+    <a href="/racuni/{{ racun.id }}/pdf" class="btn btn-action">
+      Shrani v PDF
+      <img
+        src="{{ url_for('static', path='icons/icons8-pdf-50.png') }}"
+        alt="PDF"
+      />
+    </a>
   </div>
 </div>
 {% endblock %}

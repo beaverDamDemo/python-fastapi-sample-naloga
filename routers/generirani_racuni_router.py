@@ -3,10 +3,12 @@ from sqlalchemy.orm import Session
 from database_focal import SessionLocal, FastapiGeneriraniRacuni
 from schemas.racun_schema import RacunCreate, RacunUpdate, RacunOut
 from fastapi import Request
-from fastapi.responses import HTMLResponse
 from database_focal import FastapiStranke
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, FileResponse, HTMLResponse
+from weasyprint import HTML
+from starlette.requests import Request
+import tempfile
 
 
 router = APIRouter(prefix="/racuni", tags=["Računi"])
@@ -117,3 +119,25 @@ def delete_racun_web(racun_id: int, db: Session = Depends(get_db)):
         db.delete(racun)
         db.commit()
     return RedirectResponse(url="/upravljaj_racune", status_code=303)
+
+
+@router.get("/{racun_id}/pdf")
+def export_racun_pdf(racun_id: int, db: Session = Depends(get_db)):
+    racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
+    if not racun:
+        raise HTTPException(status_code=404, detail="Račun not found")
+
+    stranka = db.query(FastapiStranke).filter_by(stranka_id=racun.stranka_id).first()
+
+    # Render the PDF-specific template (no url_for)
+    html_content = templates.get_template("poglej_racun_pdf.html").render(
+        racun=racun, stranka=stranka
+    )
+
+    # Generate PDF
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+        HTML(string=html_content, base_url=".").write_pdf(tmp_file.name)
+        pdf_path = tmp_file.name
+
+    filename = f"racun_{racun.id}.pdf"
+    return FileResponse(pdf_path, media_type="application/pdf", filename=filename)
