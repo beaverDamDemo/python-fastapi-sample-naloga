@@ -42,16 +42,8 @@ block content %}
   </section>
 
   <div class="invoice-actions">
-    <button
-      class="btn btn-pdf class-primary"
-      onclick="window.location.href='/upravljaj_racune'"
-    >
-      ⬅ Nazaj
-    </button>
-    <button
-      class="btn btn-pdf class-primary"
-      onclick="alert('PDF export coming soon!')"
-    >
+    <a href="/upravljaj_racune" class="btn btn-action">⬅ Nazaj</a>
+    <button class="btn btn-action" onclick="alert('PDF export coming soon!')">
       Shrani v PDF
       <img
         src="{{ url_for('static', path='icons/icons8-pdf-50.png') }}"
