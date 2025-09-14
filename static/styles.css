@@ -136,6 +136,52 @@ button.class-error:hover,
 button.class-error[type="submit"]:hover {
   background: var(--color-error-hover);
 }
+.btn-pdf {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  gap: 0.4em;
+  width: auto !important;
+  flex: 0 0 auto !important;
+  padding: 0.4em 0.8em;
+}
+
+.btn-pdf img {
+  width: 22px;
+  height: 22px;
+}
+
+.btn-action,
+.btn-action:link,
+.btn-action:visited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: 0.4em 0.8em;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.btn-action:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-action img {
+  width: 18px;
+  height: 18px;
+}
 .class-primary {
   background-color: var(--color-primary);
 }
@@ -283,10 +329,6 @@ th {
   margin-bottom: 0.5em;
 } */
 
-.invoice-actions {
-  margin-top: 2em;
-}
-
 .invoice-a4 {
   width: 794px;
   min-height: 1123px;
@@ -351,55 +393,4 @@ th {
   .invoice-actions {
     display: none;
   }
-}
-
-.btn-pdf {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3em;
-  padding: 0.4em 0.8em;
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  width: auto !important;
-  flex: 0 0 auto !important;
-  padding: 0.4em 0.8em;
-}
-
-.btn-pdf img {
-  width: 22px;
-  height: 22px;
-}
-
-.btn-action,
-.btn-action:link,
-.btn-action:visited {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4em;
-  padding: 0.4em 0.8em;
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  width: auto;
-  flex: 0 0 auto;
-}
-
-.btn-action:hover {
-  background-color: var(--color-primary-hover);
-}
-
-.btn-action img {
-  width: 18px;
-  height: 18px;
 }
