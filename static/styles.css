@@ -15,11 +15,14 @@
   --color-text-dark: #333;
   --color-border: #ccc;
   --color-white: #ffffff;
+  --s: 33px; /* control the size*/
+  --c1: #e4e4e4;
+  --c2: #efefef;
+  --_g: #0000 83%, var(--c1) 85% 99%, #0000 101%;
 }
 html {
   box-sizing: border-box;
 }
-
 *,
 *::before,
 *::after {
@@ -33,11 +36,13 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Quicksand", sans-serif;
-  background: linear-gradient(
-    to right,
-    var(--color-bg-light),
-    var(--color-bg-medium)
-  );
+  background: radial-gradient(27% 29% at right, var(--_g)) calc(var(--s) / 2)
+      var(--s),
+    radial-gradient(27% 29% at left, var(--_g)) calc(var(--s) / -2) var(--s),
+    radial-gradient(29% 27% at top, var(--_g)) 0 calc(var(--s) / 2),
+    radial-gradient(29% 27% at bottom, var(--_g)) 0 calc(var(--s) / -2)
+      var(--c2);
+  background-size: calc(2 * var(--s)) calc(2 * var(--s));
   color: var(--color-text-dark);
 }
 
