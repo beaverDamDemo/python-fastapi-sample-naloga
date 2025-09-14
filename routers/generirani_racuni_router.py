@@ -76,17 +76,6 @@ def update_racun(racun_id: int, update: RacunUpdate, db: Session = Depends(get_d
     return racun
 
 
-# Delete
-@router.delete("/{racun_id}")
-def delete_racun(racun_id: int, db: Session = Depends(get_db)):
-    racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
-    if not racun:
-        raise HTTPException(status_code=404, detail="Račun not found")
-    db.delete(racun)
-    db.commit()
-    return {"message": f"Račun {racun_id} deleted"}
-
-
 @router.get("/{racun_id}/edit", response_class=HTMLResponse)
 def edit_racun_form(request: Request, racun_id: int, db: Session = Depends(get_db)):
     racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
@@ -95,10 +84,22 @@ def edit_racun_form(request: Request, racun_id: int, db: Session = Depends(get_d
     )
 
 
+# Delete
+# @router.delete("/{racun_id}")
+# def delete_racun(racun_id: int, db: Session = Depends(get_db)):
+#     racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
+#     if not racun:
+#         raise HTTPException(status_code=404, detail="Račun not found")
+#     db.delete(racun)
+#     db.commit()
+#     return {"message": f"Račun {racun_id} deleted"}
+
+
 @router.post("/{racun_id}/delete")
 def delete_racun_web(racun_id: int, db: Session = Depends(get_db)):
+    print("Deleting racun with ID:", racun_id)
     racun = db.query(FastapiGeneriraniRacuni).get(racun_id)
     if racun:
         db.delete(racun)
         db.commit()
-    return RedirectResponse(url="/racuni/pregled", status_code=303)
+    return RedirectResponse(url="/upravljaj_racune", status_code=303)
