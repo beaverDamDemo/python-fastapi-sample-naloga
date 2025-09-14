@@ -1,7 +1,7 @@
 # to run
 
 .\venv\Scripts\activate
-unicorn.exe main:app --reload
+uvicorn.exe main:app --reload
 
 # csv
 
