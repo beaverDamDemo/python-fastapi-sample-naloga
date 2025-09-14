@@ -13,22 +13,23 @@ content %}
     <p><strong>Najdene stranke:</strong></p>
     <ul>
       {% for stranka in search_results %}
-      <li>
-        {{ stranka.firstname }} {{ stranka.lastname }} — ID: {{
-        stranka.stranka_id }}
+      <li style="margin-bottom: 5px">
+        <form method="post" action="/ustvari_racun" style="display: inline">
+          <input
+            type="hidden"
+            name="stranka_id"
+            value="{{ stranka.stranka_id }}"
+          />
+          <button type="submit">
+            Ustvari račun za: {{ stranka.firstname }} {{ stranka.lastname }} —
+            <span><i>ID: {{ stranka.stranka_id }}</i></span>
+          </button>
+        </form>
       </li>
       {% endfor %}
     </ul>
   </div>
-  {% endif %}
-
-  <form method="post" action="/ustvari_racun">
-    <label for="stranka_id">Stranka ID:</label>
-    <input type="number" id="stranka_id" name="stranka_id" required />
-    <button type="submit">Ustvari</button>
-  </form>
-
-  {% if result %}
+  {% endif %} {% if result %}
   <div class="result {% if 'No data' in result.message %}error{% endif %}">
     <p><strong>{{ result.message }}</strong></p>
     {% if result.koncni_znesek is defined %}

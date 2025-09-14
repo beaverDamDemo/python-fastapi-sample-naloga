@@ -38,13 +38,6 @@ def read_all_racuni(db: Session = Depends(get_db)):
 
 @router.get("/isci_stranko", response_class=HTMLResponse)
 def search_stranka(request: Request, search_name: str, db: Session = Depends(get_db)):
-    print("Searching for:", search_name)
-    print("Searching for:", search_name)
-    print("Searching for:", search_name)
-    print("Searching for:", search_name)
-    print("Searching for:", search_name)
-    print("Searching for:", search_name)
-
     results = (
         db.query(FastapiStranke)
         .filter(
