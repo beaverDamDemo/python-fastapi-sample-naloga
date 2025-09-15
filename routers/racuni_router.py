@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database_focal import SessionLocal, FastapiRacuni
 from schemas.racun_schema import RacunCreate, RacunOut
-from fastapi import Request
 from database_focal import FastapiStranke
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, FileResponse, HTMLResponse
@@ -10,6 +9,8 @@ from weasyprint import HTML
 from starlette.requests import Request
 from database_focal import SessionLocal, FastapiVhodniPodatki, FastapiRacuni
 from fastapi import Depends, Form, Request
+from models.racuni_model import Racun
+
 import tempfile
 
 

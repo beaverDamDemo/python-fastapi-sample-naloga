@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Float
-from database_focal import Base  # Reuse the shared Base
+from models.base import Base
 
 
 class Racun(Base):
