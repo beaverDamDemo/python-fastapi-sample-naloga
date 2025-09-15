@@ -59,7 +59,7 @@ def login_page(request: Request):
 @app.post("/login")
 def login(request: Request, username: str = Form(...), password: str = Form(...)):
     if username == VALID_USERNAME and password == VALID_PASSWORD:
-        response = RedirectResponse(url="/stranke", status_code=303)
+        response = RedirectResponse(url="/", status_code=303)
         login_user(response, username)
         return response
     return templates.TemplateResponse(
