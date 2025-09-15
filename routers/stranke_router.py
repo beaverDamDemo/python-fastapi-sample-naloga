@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from database_focal import SessionLocal
 from models.stranke_model import Stranka
@@ -59,7 +60,19 @@ def update_stranka(
 def delete_stranka(stranka_id: int, db: Session = Depends(get_db)):
     stranka = db.query(Stranka).filter_by(stranka_id=stranka_id).first()
     if not stranka:
-        raise HTTPException(status_code=404, detail="Stranka not found")
+        raise HTTPException(
+            status_code=404, detail="Stranka with ID {stranka_id} not found"
+        )
     db.delete(stranka)
     db.commit()
     return {"message": f"Stranka {stranka_id} deleted"}
+
+
+@router.post("/{stranka_id}/delete")
+def delete_stranka_form(stranka_id: int, db: Session = Depends(get_db)):
+    stranka = db.query(Stranka).filter_by(stranka_id=stranka_id).first()
+    if not stranka:
+        raise HTTPException(status_code=404, detail="Stranka not found")
+    db.delete(stranka)
+    db.commit()
+    return RedirectResponse(url="/stranke", status_code=303)

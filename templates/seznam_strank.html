@@ -11,6 +11,7 @@ content %}
         <th>Ime</th>
         <th>Priimek</th>
         <th>Naslov</th>
+        <th>Akcije</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +21,15 @@ content %}
         <td>{{ s.firstname }}</td>
         <td>{{ s.lastname }}</td>
         <td>{{ s.address }}</td>
+        <td>
+          <form
+            method="post"
+            action="/stranke/{{ s.stranka_id }}/delete"
+            onsubmit="return confirm('Are you sure?');"
+          >
+            <button type="submit" class="btn btn-error">🗑️ Izbriši</button>
+          </form>
+        </td>
       </tr>
       {% endfor %}
     </tbody>

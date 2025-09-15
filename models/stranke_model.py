@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Identity
 from database_focal import Base  # or from .database import Base if modular
+from sqlalchemy.orm import relationship
 
 
 class Stranka(Base):
@@ -9,3 +10,7 @@ class Stranka(Base):
     firstname = Column(String, nullable=False)
     lastname = Column(String, nullable=False)
     address = Column(String, nullable=False)
+
+    racuni = relationship(
+        "Racun", backref="stranka", cascade="all, delete", passive_deletes=True
+    )
