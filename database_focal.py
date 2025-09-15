@@ -31,8 +31,8 @@ class FastapiVhodniPodatki(Base):
     stranka_id = Column(Integer)  # Foreign key to stranke.id
 
 
-class FastapiGeneriraniRacuni(Base):
-    __tablename__ = "fastapi_generirani_racuni"
+class FastapiRacuni(Base):
+    __tablename__ = "fastapi_racuni"
 
     id = Column(Integer, primary_key=True, index=True)
     stranka_id = Column(Integer, nullable=False)

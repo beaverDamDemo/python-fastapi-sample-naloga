@@ -4,16 +4,16 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from sqlalchemy.orm import Session
-from database_focal import SessionLocal, FastapiVhodniPodatki, FastapiGeneriraniRacuni
+from database_focal import SessionLocal, FastapiVhodniPodatki, FastapiRacuni
 from schemas.racun_schema import RacunCreate, RacunUpdate, RacunOut
-from routers import generirani_racuni_router
+from routers import racuni_router
 from routers.stranke_router import router as stranke_router
 from database_focal import FastapiStranke
 from routers.dodaj_stranko_router import router as dodaj_stranko_router
 
 
 app = FastAPI()
-app.include_router(generirani_racuni_router.router)
+app.include_router(racuni_router.router)
 app.include_router(dodaj_stranko_router)
 app.include_router(stranke_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -52,10 +52,8 @@ def ustvari_racun(stranka_id: int, db: Session = Depends(get_db)):
         if row.poraba is not None and row.dinamicne_cene is not None:
             koncni_znesek += row.poraba * row.dinamicne_cene * 0.25
 
-    # 3. Insert into fastapi_generirani_racuni
-    new_racun = FastapiGeneriraniRacuni(
-        stranka_id=stranka_id, koncni_znesek=koncni_znesek
-    )
+    # 3. Insert into fastapi_racuni
+    new_racun = FastapiRacuni(stranka_id=stranka_id, koncni_znesek=koncni_znesek)
     db.add(new_racun)
     db.commit()
     db.refresh(new_racun)
@@ -96,9 +94,7 @@ def handle_form(
         if row.poraba is not None and row.dinamicne_cene is not None
     )
 
-    new_racun = FastapiGeneriraniRacuni(
-        stranka_id=stranka_id, koncni_znesek=koncni_znesek
-    )
+    new_racun = FastapiRacuni(stranka_id=stranka_id, koncni_znesek=koncni_znesek)
     db.add(new_racun)
     db.commit()
     db.refresh(new_racun)
@@ -130,7 +126,7 @@ def seznam_strank(request: Request):
 
 @app.get("/upravljaj_racune", response_class=HTMLResponse)
 def upravljaj_racune(request: Request, db: Session = Depends(get_db)):
-    racuni = db.query(FastapiGeneriraniRacuni).all()
+    racuni = db.query(FastapiRacuni).all()
     return templates.TemplateResponse(
         "upravljaj_racune.html", {"request": request, "racuni": racuni}
     )
