@@ -57,6 +57,11 @@
             width="54"
           />
         </a>
+        <a href="/logout" class="btn btn-error">Odjava</a>
+
+        {% if request.state.flash %}
+        <div class="result">{{ request.state.flash }}</div>
+        {% endif %}
       </div>
     </header>
 

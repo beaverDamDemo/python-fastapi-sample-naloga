@@ -1,3 +1,4 @@
+from urllib import response
 from fastapi import FastAPI, Depends, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -10,7 +11,8 @@ from routers import racuni_router
 from routers.stranke_router import router as stranke_router
 from models.stranke_model import Stranka
 from routers.dodaj_stranko_router import router as dodaj_stranko_router
-from auth.session import login_user, VALID_USERNAME, VALID_PASSWORD
+from auth.session import login_user, logout_user, VALID_USERNAME, VALID_PASSWORD
+import urllib.parse
 
 app = FastAPI()
 app.include_router(racuni_router.router)
@@ -29,6 +31,16 @@ async def redirect_unauthenticated(request: Request, call_next):
         if e.status_code == 302 and "Location" in e.headers:
             return RedirectResponse(url=e.headers["Location"])
         raise e
+
+
+@app.middleware("http")
+async def flash_middleware(request: Request, call_next):
+    response = await call_next(request)
+    flash = request.cookies.get("flash")
+    if flash:
+        request.state.flash = urllib.parse.unquote(flash)
+        response.delete_cookie("flash")
+    return response
 
 
 def get_db():
@@ -53,6 +65,15 @@ def login(request: Request, username: str = Form(...), password: str = Form(...)
     return templates.TemplateResponse(
         "login.html", {"request": request, "error": "Invalid credentials"}
     )
+
+
+@app.get("/logout")
+def logout(request: Request):
+    response = RedirectResponse(url="/login", status_code=303)
+    logout_user(response)
+    message = urllib.parse.quote("Uspešno ste se odjavili")
+    response.set_cookie(key="flash", value=message, max_age=5)
+    return response
 
 
 @app.get("/time")

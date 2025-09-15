@@ -142,6 +142,7 @@ main {
 .header-content {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .header-content a.logo {
   background: transparent;
