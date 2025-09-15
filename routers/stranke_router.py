@@ -4,8 +4,11 @@ from sqlalchemy.orm import Session
 from database_focal import SessionLocal
 from models.stranke_model import Stranka
 from schemas.stranke_schema import StrankaCreate, StrankaUpdate, StrankaOut
+from auth.dependencies import require_login
 
-router = APIRouter(prefix="/stranke", tags=["Stranke"])
+router = APIRouter(
+    prefix="/stranke", tags=["Stranke"], dependencies=[Depends(require_login)]
+)
 
 
 def get_db():

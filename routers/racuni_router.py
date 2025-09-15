@@ -10,11 +10,12 @@ from starlette.requests import Request
 from database_focal import SessionLocal, FastapiVhodniPodatki, FastapiRacuni
 from fastapi import Depends, Form, Request
 from models.racuni_model import Racun
-
+from auth.dependencies import require_login
 import tempfile
 
-
-router = APIRouter(prefix="/racuni", tags=["Računi"])
+router = APIRouter(
+    prefix="/racuni", tags=["Računi"], dependencies=[Depends(require_login)]
+)
 
 templates = Jinja2Templates(directory="templates")
 

@@ -4,8 +4,9 @@ from fastapi.templating import Jinja2Templates
 from database_focal import SessionLocal
 from models.stranke_model import Stranka
 from sqlalchemy.orm import Session
+from auth.dependencies import require_login
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(require_login)])
 templates = Jinja2Templates(directory="templates")
 
 
