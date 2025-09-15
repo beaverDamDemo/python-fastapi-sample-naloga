@@ -6,10 +6,6 @@ class RacunCreate(BaseModel):
     koncni_znesek: float
 
 
-class RacunUpdate(BaseModel):
-    koncni_znesek: float
-
-
 class RacunOut(BaseModel):
     id: int
     stranka_id: int

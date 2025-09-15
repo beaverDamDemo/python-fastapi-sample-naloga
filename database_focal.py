@@ -14,6 +14,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import text
 import models
 from models.base import Base
+from models import stranke_model, racuni_model
 
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -39,15 +40,6 @@ class FastapiRacuni(Base):
     id = Column(Integer, primary_key=True, index=True)
     stranka_id = Column(Integer, nullable=False)
     koncni_znesek = Column(Float, nullable=False)
-
-
-class FastapiStranke(Base):
-    __tablename__ = "fastapi_stranke"
-
-    stranka_id = Column(Integer, Identity(always=True), primary_key=True, index=True)
-    firstname = Column(String, nullable=False)
-    lastname = Column(String, nullable=False)
-    address = Column(String, nullable=False)
 
 
 # --- Create tables automatically ---

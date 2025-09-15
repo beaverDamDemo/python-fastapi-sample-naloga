@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database_focal import SessionLocal, FastapiRacuni
 from schemas.racun_schema import RacunCreate, RacunOut
-from database_focal import FastapiStranke
+from models.stranke_model import Stranka
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, FileResponse, HTMLResponse
 from weasyprint import HTML
@@ -46,10 +46,10 @@ def read_all_racuni(db: Session = Depends(get_db)):
 @router.get("/isci_stranko", response_class=HTMLResponse)
 def search_stranka(request: Request, search_name: str, db: Session = Depends(get_db)):
     results = (
-        db.query(FastapiStranke)
+        db.query(Stranka)
         .filter(
-            (FastapiStranke.firstname.ilike(f"%{search_name}%"))
-            | (FastapiStranke.lastname.ilike(f"%{search_name}%"))
+            (Stranka.firstname.ilike(f"%{search_name}%"))
+            | (Stranka.lastname.ilike(f"%{search_name}%"))
         )
         .all()
     )
@@ -113,7 +113,7 @@ def view_racun(request: Request, racun_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Račun not found")
 
     # Get linked stranka info
-    stranka = db.query(FastapiStranke).filter_by(stranka_id=racun.stranka_id).first()
+    stranka = db.query(Stranka).filter_by(stranka_id=racun.stranka_id).first()
 
     return templates.TemplateResponse(
         "poglej_racun.html", {"request": request, "racun": racun, "stranka": stranka}
@@ -136,7 +136,7 @@ def export_racun_pdf(racun_id: int, db: Session = Depends(get_db)):
     if not racun:
         raise HTTPException(status_code=404, detail="Račun not found")
 
-    stranka = db.query(FastapiStranke).filter_by(stranka_id=racun.stranka_id).first()
+    stranka = db.query(Stranka).filter_by(stranka_id=racun.stranka_id).first()
 
     # Render the PDF-specific template (no url_for)
     html_content = templates.get_template("poglej_racun_pdf.html").render(

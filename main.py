@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from database_focal import SessionLocal, FastapiRacuni
 from routers import racuni_router
 from routers.stranke_router import router as stranke_router
-from database_focal import FastapiStranke
+from models.stranke_model import Stranka
 from routers.dodaj_stranko_router import router as dodaj_stranko_router
 
 
@@ -46,7 +46,7 @@ def show_dodaj_stranko(request: Request):
 @app.get("/seznam_strank", response_class=HTMLResponse)
 def seznam_strank(request: Request):
     db = SessionLocal()
-    stranke = db.query(FastapiStranke).all()
+    stranke = db.query(Stranka).all()
     db.close()
     return templates.TemplateResponse(
         "seznam_strank.html", {"request": request, "stranke": stranke}
