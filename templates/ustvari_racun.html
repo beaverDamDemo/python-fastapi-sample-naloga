@@ -14,7 +14,11 @@ content %}
     <ul>
       {% for stranka in search_results %}
       <li style="margin-bottom: 5px">
-        <form method="post" action="/ustvari_racun" style="display: inline">
+        <form
+          method="post"
+          action="/racuni/ustvari_racun"
+          style="display: inline"
+        >
           <input
             type="hidden"
             name="stranka_id"

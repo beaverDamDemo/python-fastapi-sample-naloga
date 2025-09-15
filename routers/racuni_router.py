@@ -1,13 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database_focal import SessionLocal, FastapiRacuni
-from schemas.racun_schema import RacunCreate, RacunUpdate, RacunOut
+from schemas.racun_schema import RacunCreate, RacunOut
 from fastapi import Request
 from database_focal import FastapiStranke
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, FileResponse, HTMLResponse
 from weasyprint import HTML
 from starlette.requests import Request
+from database_focal import SessionLocal, FastapiVhodniPodatki, FastapiRacuni
+from fastapi import Depends, Form, Request
 import tempfile
 
 
@@ -57,6 +59,43 @@ def search_stranka(request: Request, search_name: str, db: Session = Depends(get
     )
 
 
+@router.post("/ustvari_racun", response_class=HTMLResponse)
+def handle_form(
+    request: Request, stranka_id: int = Form(...), db: Session = Depends(get_db)
+):
+    rows = (
+        db.query(FastapiVhodniPodatki)
+        .filter(FastapiVhodniPodatki.stranka_id == stranka_id)
+        .all()
+    )
+
+    if not rows:
+        result = {"message": f"No data found for stranka_id {stranka_id}"}
+        return templates.TemplateResponse(
+            "ustvari_racun.html", {"request": request, "result": result}
+        )
+
+    koncni_znesek = sum(
+        float(row.poraba) * float(row.dinamicne_cene)
+        for row in rows
+        if row.poraba is not None and row.dinamicne_cene is not None
+    )
+
+    new_racun = FastapiRacuni(stranka_id=stranka_id, koncni_znesek=koncni_znesek)
+    db.add(new_racun)
+    db.commit()
+    db.refresh(new_racun)
+
+    result = {
+        "message": "Račun ustvarjen uspešno",
+        "stranka_id": stranka_id,
+        "koncni_znesek": koncni_znesek,
+    }
+    return templates.TemplateResponse(
+        "ustvari_racun.html", {"request": request, "result": result}
+    )
+
+
 # Read one, it must be defined AFTER isci_stranko
 @router.get("/{racun_id}", response_model=RacunOut)
 def read_racun(racun_id: int, db: Session = Depends(get_db)):
@@ -78,37 +117,6 @@ def view_racun(request: Request, racun_id: int, db: Session = Depends(get_db)):
     return templates.TemplateResponse(
         "poglej_racun.html", {"request": request, "racun": racun, "stranka": stranka}
     )
-
-
-# Update
-# @router.put("/{racun_id}", response_model=RacunOut)
-# def update_racun(racun_id: int, update: RacunUpdate, db: Session = Depends(get_db)):
-#     racun = db.query(FastapiRacuni).get(racun_id)
-#     if not racun:
-#         raise HTTPException(status_code=404, detail="Račun not found")
-#     racun.koncni_znesek = update.koncni_znesek
-#     db.commit()
-#     db.refresh(racun)
-#     return racun
-
-
-# @router.get("/{racun_id}/edit", response_class=HTMLResponse)
-# def edit_racun_form(request: Request, racun_id: int, db: Session = Depends(get_db)):
-#     racun = db.query(FastapiRacuni).get(racun_id)
-#     return templates.TemplateResponse(
-#         "edit_racun.html", {"request": request, "racun": racun}
-#     )
-
-
-# Delete
-# @router.delete("/{racun_id}")
-# def delete_racun(racun_id: int, db: Session = Depends(get_db)):
-#     racun = db.query(FastapiRacuni).get(racun_id)
-#     if not racun:
-#         raise HTTPException(status_code=404, detail="Račun not found")
-#     db.delete(racun)
-#     db.commit()
-#     return {"message": f"Račun {racun_id} deleted"}
 
 
 @router.post("/{racun_id}/delete")
