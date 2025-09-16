@@ -1,10 +1,13 @@
-from fastapi import APIRouter, Request, Form, Depends
+from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+
+from sqlalchemy.orm import Session
+
+from auth.dependencies import require_login
 from database_focal import SessionLocal
 from models.stranke_model import Stranka
-from sqlalchemy.orm import Session
-from auth.dependencies import require_login
+
 
 router = APIRouter(dependencies=[Depends(require_login)])
 templates = Jinja2Templates(directory="templates")

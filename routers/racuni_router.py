@@ -1,18 +1,20 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from database_focal import SessionLocal
-from schemas.racun_schema import RacunCreate, RacunOut
-from models.stranke_model import Stranka
-from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse, FileResponse, HTMLResponse
-from weasyprint import HTML
-from starlette.requests import Request
-from database_focal import SessionLocal
-from fastapi import Depends, Form, Request
-from models.racuni_model import Racun
-from models.vhodni_podatki_model import VhodniPodatki
-from auth.dependencies import require_login
 import tempfile
+
+from fastapi import APIRouter, Depends, Form, HTTPException, Request
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
+
+from sqlalchemy.orm import Session
+
+from weasyprint import HTML
+
+from auth.dependencies import require_login
+from database_focal import SessionLocal
+from models.racuni_model import Racun
+from models.stranke_model import Stranka
+from models.vhodni_podatki_model import VhodniPodatki
+from schemas.racun_schema import RacunCreate, RacunOut
+
 
 router = APIRouter(
     prefix="/racuni", tags=["Računi"], dependencies=[Depends(require_login)]

@@ -1,5 +1,4 @@
-from fastapi import Request, HTTPException, Depends
-from fastapi.responses import RedirectResponse
+from fastapi import Request, HTTPException
 from auth.session import get_logged_in_user
 
 

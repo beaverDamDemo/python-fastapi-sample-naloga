@@ -1,5 +1,4 @@
 from fastapi import Request, Response
-from fastapi.responses import RedirectResponse
 
 # Hardcoded credentials
 VALID_USERNAME = "admin"
