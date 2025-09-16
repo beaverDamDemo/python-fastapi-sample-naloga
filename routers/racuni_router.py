@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database_focal import SessionLocal, FastapiRacuni
+from database_focal import SessionLocal
 from schemas.racun_schema import RacunCreate, RacunOut
 from models.stranke_model import Stranka
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, FileResponse, HTMLResponse
 from weasyprint import HTML
 from starlette.requests import Request
-from database_focal import SessionLocal, FastapiVhodniPodatki, FastapiRacuni
+from database_focal import SessionLocal, FastapiVhodniPodatki
 from fastapi import Depends, Form, Request
 from models.racuni_model import Racun
 from auth.dependencies import require_login
@@ -31,7 +31,7 @@ def get_db():
 # Create
 @router.post("/", response_model=RacunOut)
 def create_racun(racun: RacunCreate, db: Session = Depends(get_db)):
-    new_racun = FastapiRacuni(**racun.dict())
+    new_racun = Racun(**racun.dict())
     db.add(new_racun)
     db.commit()
     db.refresh(new_racun)
@@ -41,7 +41,7 @@ def create_racun(racun: RacunCreate, db: Session = Depends(get_db)):
 # Read all
 @router.get("/", response_model=list[RacunOut])
 def read_all_racuni(db: Session = Depends(get_db)):
-    return db.query(FastapiRacuni).all()
+    return db.query(Racun).all()
 
 
 @router.get("/isci_stranko", response_class=HTMLResponse)
@@ -83,7 +83,7 @@ def handle_form(
         if row.poraba is not None and row.dinamicne_cene is not None
     )
 
-    new_racun = FastapiRacuni(stranka_id=stranka_id, koncni_znesek=koncni_znesek)
+    new_racun = Racun(stranka_id=stranka_id, koncni_znesek=koncni_znesek)
     db.add(new_racun)
     db.commit()
     db.refresh(new_racun)
@@ -101,7 +101,7 @@ def handle_form(
 # Read one, it must be defined AFTER isci_stranko
 @router.get("/{racun_id}", response_model=RacunOut)
 def read_racun(racun_id: int, db: Session = Depends(get_db)):
-    racun = db.query(FastapiRacuni).get(racun_id)
+    racun = db.query(Racun).get(racun_id)
     if not racun:
         raise HTTPException(status_code=404, detail="Račun not found")
     return racun
@@ -109,7 +109,7 @@ def read_racun(racun_id: int, db: Session = Depends(get_db)):
 
 @router.get("/{racun_id}/poglej_racun", response_class=HTMLResponse)
 def view_racun(request: Request, racun_id: int, db: Session = Depends(get_db)):
-    racun = db.query(FastapiRacuni).get(racun_id)
+    racun = db.query(Racun).get(racun_id)
     if not racun:
         raise HTTPException(status_code=404, detail="Račun not found")
 
@@ -124,7 +124,7 @@ def view_racun(request: Request, racun_id: int, db: Session = Depends(get_db)):
 @router.post("/{racun_id}/delete")
 def delete_racun_web(racun_id: int, db: Session = Depends(get_db)):
     print("Deleting racun with ID:", racun_id)
-    racun = db.query(FastapiRacuni).get(racun_id)
+    racun = db.query(Racun).get(racun_id)
     if racun:
         db.delete(racun)
         db.commit()
@@ -133,7 +133,7 @@ def delete_racun_web(racun_id: int, db: Session = Depends(get_db)):
 
 @router.get("/{racun_id}/pdf")
 def export_racun_pdf(racun_id: int, db: Session = Depends(get_db)):
-    racun = db.query(FastapiRacuni).get(racun_id)
+    racun = db.query(Racun).get(racun_id)
     if not racun:
         raise HTTPException(status_code=404, detail="Račun not found")
 

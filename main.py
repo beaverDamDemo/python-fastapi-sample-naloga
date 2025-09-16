@@ -6,13 +6,15 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from auth.dependencies import require_login
-from database_focal import SessionLocal, FastapiRacuni
+from database_focal import SessionLocal
 from routers import racuni_router
 from routers.stranke_router import router as stranke_router
 from models.stranke_model import Stranka
+from models.racuni_model import Racun
 from routers.dodaj_stranko_router import router as dodaj_stranko_router
 from auth.session import login_user, logout_user, VALID_USERNAME, VALID_PASSWORD
 import urllib.parse
+
 
 app = FastAPI()
 app.include_router(racuni_router.router)
@@ -82,6 +84,11 @@ def get_time(db: Session = Depends(get_db)):
     return {"server_time": result[0]}
 
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
+
 @app.get("/ustvari_racun", response_class=HTMLResponse)
 def show_form(request: Request, user: str = Depends(require_login)):
     return templates.TemplateResponse("ustvari_racun.html", {"request": request})
@@ -106,7 +113,7 @@ def seznam_strank(request: Request):
 def upravljaj_racune(
     request: Request, db: Session = Depends(get_db), user: str = Depends(require_login)
 ):
-    racuni = db.query(FastapiRacuni).all()
+    racuni = db.query(Racun).all()
     return templates.TemplateResponse(
         "upravljaj_racune.html", {"request": request, "racuni": racuni}
     )

@@ -1,7 +1,11 @@
-# to run
+# to run without docker
 
 .\venv\Scripts\activate
 uvicorn.exe main:app --reload
+
+# with docker
+
+docker compose up --build
 
 # csv
 

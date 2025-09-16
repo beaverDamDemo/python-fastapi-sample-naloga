@@ -1,0 +1,7 @@
+services:
+  fastapi:
+    image: fastapi-app
+    volumes:
+      - ./dev.db:/app/dev.db
+    env_file:
+      - .env.dev

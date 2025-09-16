@@ -40,7 +40,3 @@ class FastapiRacuni(Base):
     id = Column(Integer, primary_key=True, index=True)
     stranka_id = Column(Integer, nullable=False)
     koncni_znesek = Column(Float, nullable=False)
-
-
-# --- Create tables automatically ---
-Base.metadata.create_all(bind=engine)
