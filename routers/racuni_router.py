@@ -7,9 +7,10 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, FileResponse, HTMLResponse
 from weasyprint import HTML
 from starlette.requests import Request
-from database_focal import SessionLocal, FastapiVhodniPodatki
+from database_focal import SessionLocal
 from fastapi import Depends, Form, Request
 from models.racuni_model import Racun
+from models.vhodni_podatki_model import VhodniPodatki
 from auth.dependencies import require_login
 import tempfile
 
@@ -65,11 +66,7 @@ def search_stranka(request: Request, search_name: str, db: Session = Depends(get
 def handle_form(
     request: Request, stranka_id: int = Form(...), db: Session = Depends(get_db)
 ):
-    rows = (
-        db.query(FastapiVhodniPodatki)
-        .filter(FastapiVhodniPodatki.stranka_id == stranka_id)
-        .all()
-    )
+    rows = db.query(VhodniPodatki).filter(VhodniPodatki.stranka_id == stranka_id).all()
 
     if not rows:
         result = {"message": f"No data found for stranka_id {stranka_id}"}
