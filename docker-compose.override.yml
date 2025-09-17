@@ -1,7 +1,30 @@
 services:
+  db:
+    image: postgres:16-alpine
+    container_name: dev-postgres
+    environment:
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: devdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+  healthcheck:
+    test: ["CMD-SHELL", "pg_isready -U devuser -d devdb"]
+    interval: 10s
+    timeout: 5s
+    retries: 3
+
+
   fastapi:
     image: fastapi-app
-    volumes:
-      - ./dev.db:/app/dev.db
     env_file:
       - .env.dev
+    depends_on:
+      - db
+    entrypoint: ["sh", "wait-for-db.sh", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+volumes:
+  pgdata:

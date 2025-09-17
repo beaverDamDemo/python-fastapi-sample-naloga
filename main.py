@@ -24,6 +24,16 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
+@app.on_event("startup")
+def startup():
+    from models import racuni_model, stranke_model, vhodni_podatki_model
+    from models.base import Base
+    from database_focal import engine
+
+    print("Creating tables...")
+    Base.metadata.create_all(bind=engine)
+
+
 @app.middleware("http")
 async def redirect_unauthenticated(request: Request, call_next):
     try:
