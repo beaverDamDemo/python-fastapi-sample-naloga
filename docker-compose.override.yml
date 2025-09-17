@@ -11,11 +11,11 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
-  healthcheck:
-    test: ["CMD-SHELL", "pg_isready -U devuser -d devdb"]
-    interval: 10s
-    timeout: 5s
-    retries: 3
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devuser -d devdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 
   fastapi:
@@ -23,8 +23,9 @@ services:
     env_file:
       - .env.dev
     depends_on:
-      - db
-    entrypoint: ["sh", "wait-for-db.sh", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+      db:
+        condition: service_healthy
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 volumes:
   pgdata:
