@@ -11,3 +11,14 @@ docker compose up --build
 
 Prvo poženi skripto za naložit .csv
 python.exe import-csv-t.....py
+
+# to install
+
+- apt-get System-level packages (OS, binaries) compilers, database clients, C libs
+- pip Python packages for your app FastAPI, Alembic, SQLAlchemy, etc.
+
+## example
+
+```
+./venv/bin/pip install weasyprint
+```

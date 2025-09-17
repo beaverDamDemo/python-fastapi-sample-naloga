@@ -1,10 +1,10 @@
-from sqlalchemy import Column, Integer, Float
 from models.base import Base
 from sqlalchemy import (
     Column,
     Integer,
     Float,
     TIMESTAMP,
+    ForeignKey,
 )
 
 
@@ -15,4 +15,6 @@ class VhodniPodatki(Base):
     casovna_znacka = Column(TIMESTAMP(timezone=True))
     poraba = Column(Float)
     dinamicne_cene = Column(Float)
-    stranka_id = Column(Integer)  # Foreign key to stranke.id
+    stranka_id = Column(
+        Integer, ForeignKey("fastapi_stranke.stranka_id", ondelete="CASCADE")
+    )
