@@ -49,7 +49,7 @@ def uredi_stranko_submit(
     stranka.lastname = lastname
     stranka.address = address
     db.commit()
-    return RedirectResponse(url="/seznam_strank", status_code=303)
+    return RedirectResponse(url="/upravljaj_stranke", status_code=303)
 
 
 @router.post("/{stranka_id}/delete")
@@ -59,7 +59,7 @@ def delete_stranka_form(stranka_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Stranka not found")
     db.delete(stranka)
     db.commit()
-    return RedirectResponse(url="/seznam_strank", status_code=303)
+    return RedirectResponse(url="/upravljaj_stranke", status_code=303)
 
 
 @router.post("/", response_model=StrankaOut)

@@ -51,11 +51,11 @@ def handle_dodaj_stranko(
     )
 
 
-@router.get("/seznam_strank", response_class=HTMLResponse)
-def seznam_strank(request: Request):
+@router.get("/upravljaj_stranke", response_class=HTMLResponse)
+def upravljaj_stranke(request: Request):
     db = SessionLocal()
     stranke = db.query(Stranka).all()
     db.close()
     return templates.TemplateResponse(
-        "seznam_strank.html", {"request": request, "stranke": stranke}
+        "upravljaj_stranke.html", {"request": request, "stranke": stranke}
     )

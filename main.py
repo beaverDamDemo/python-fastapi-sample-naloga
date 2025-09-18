@@ -108,13 +108,13 @@ def show_dodaj_stranko(request: Request):
     return templates.TemplateResponse("create_stranka.html", {"request": request})
 
 
-@app.get("/seznam_strank", response_class=HTMLResponse)
-def seznam_strank(request: Request):
+@app.get("/upravljaj_stranke", response_class=HTMLResponse)
+def upravljaj_stranke(request: Request):
     db = SessionLocal()
     stranke = db.query(Stranka).all()
     db.close()
     return templates.TemplateResponse(
-        "seznam_strank.html", {"request": request, "stranke": stranke}
+        "upravljaj_stranke.html", {"request": request, "stranke": stranke}
     )
 
 
