@@ -1,8 +1,7 @@
 {% extends "base.html" %} {% block title %}Seznam Strank{% endblock %} {% block
 content %}
 <div class="container">
-  <h1>Seznam Strank</h1>
-
+  <h1>📋 Upravljanje Strank</h1>
   {% if stranke %}
   <table>
     <thead>
@@ -21,7 +20,10 @@ content %}
         <td>{{ s.firstname }}</td>
         <td>{{ s.lastname }}</td>
         <td>{{ s.address }}</td>
-        <td style="display: flex; gap: 0.5rem">
+        <td style="display: flex; gap: 10px; flex-direction: row">
+          <a href="/stranke/{{ s.stranka_id }}/uredi" class="btn btn-primary"
+            >✏️ Uredi</a
+          >
           <form
             method="post"
             action="/stranke/{{ s.stranka_id }}/delete"
@@ -29,9 +31,6 @@ content %}
           >
             <button type="submit" class="btn btn-error">🗑️ Izbriši</button>
           </form>
-          <a href="/stranke/{{ s.stranka_id }}/uredi" class="btn btn-primary"
-            >✏️ Uredi</a
-          >
         </td>
       </tr>
       {% endfor %}
