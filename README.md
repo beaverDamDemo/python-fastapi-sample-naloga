@@ -47,7 +47,21 @@ docker-compose up --build
 docker-compose -f docekr-compose.prod.yml build
 docker-compose -f docekr-compose.prod.yml up
 
-## CSV import
+## CSV import (new)
+
+```
+docker-compose up
+```
+
+and in another terminal
+
+```
+docker-compose exec fastapi python import-csv-to-db.py --env dev
+```
+
+it will generate some temporary fake stranka_id
+
+## CSV import (old)
 
 Currently you have to import the `.csv` files manually by running:
 
@@ -76,13 +90,13 @@ It will "link" the CSV data with `stranka` based on the number in the `.csv` fil
 You need to run migrations with Alembic. Make sure you're inside the virtual environment:
 
 ```
-alembic revision --autogenerate -m "Add new table"
+ ./venv/bin/alembic revision --autogenerate -m "Add new table"
 ```
 
 ### Apply migration
 
 ```
-alembic upgrade head
+ ./venv/bin/alembic upgrade head
 ```
 
 Make sure your models are imported in `alembic/env.py`.
@@ -97,3 +111,7 @@ Not implemented.
 - Healthcheck endpoint: `/health`
 - PDF generation uses WeasyPrint (requires system libraries)
 - Database must support SSL (e.g. Aiven PostgreSQL)
+
+# TODO
+
+- kaj se zgodi ce je prva vrstica od csv ... v bistvu header z nekimi teksti in ne stevilkami? dobimo kak warning al karkoli?
