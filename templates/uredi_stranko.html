@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block title %}Uredi Stranko{% endblock %} {% block
+content %}
+<div class="container">
+  <h1>Uredi Stranko</h1>
+
+  <form method="post" action="/stranke/{{ stranka.stranka_id }}/uredi">
+    <div class="form-group">
+      <label for="firstname">Ime</label>
+      <input
+        type="text"
+        id="firstname"
+        name="firstname"
+        value="{{ stranka.firstname }}"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="lastname">Priimek</label>
+      <input
+        type="text"
+        id="lastname"
+        name="lastname"
+        value="{{ stranka.lastname }}"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="address">Naslov</label>
+      <input
+        type="text"
+        id="address"
+        name="address"
+        value="{{ stranka.address }}"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn btn-success">💾 Shrani spremembe</button>
+    <a href="/stranke" class="btn btn-secondary">↩️ Nazaj</a>
+  </form>
+</div>
+{% endblock %}

@@ -1,4 +1,3 @@
-from urllib import response
 from fastapi import FastAPI, Depends, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -7,17 +6,17 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 from auth.dependencies import require_login
 from database_focal import SessionLocal
-from routers import racuni_router
-from routers.stranke_router import router as stranke_router
 from models.stranke_model import Stranka
 from models.racuni_model import Racun
+from routers.racuni_router import router as racuni_router
+from routers.stranke_router import router as stranke_router
 from routers.dodaj_stranko_router import router as dodaj_stranko_router
 from auth.session import login_user, logout_user, VALID_USERNAME, VALID_PASSWORD
 import urllib.parse
 
 
 app = FastAPI()
-app.include_router(racuni_router.router)
+app.include_router(racuni_router)
 app.include_router(dodaj_stranko_router)
 app.include_router(stranke_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")

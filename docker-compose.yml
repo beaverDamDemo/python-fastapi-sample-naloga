@@ -6,4 +6,8 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env.prod
+      - .env.dev
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
