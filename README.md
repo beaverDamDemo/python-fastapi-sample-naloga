@@ -114,4 +114,5 @@ Not implemented.
 
 # TODO
 
-- kaj se zgodi ce je prva vrstica od csv ... v bistvu header z nekimi teksti in ne stevilkami? dobimo kak warning al karkoli?
+- Importing multiple times the same csv currently is not notifying the user
+- add time

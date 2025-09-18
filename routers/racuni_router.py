@@ -76,11 +76,19 @@ def handle_form(
             "ustvari_racun.html", {"request": request, "result": result}
         )
 
-    koncni_znesek = sum(
-        float(row.poraba) * float(row.dinamicne_cene)
-        for row in rows
-        if row.poraba is not None and row.dinamicne_cene is not None
-    )
+    koncni_znesek = 0
+    invalid_found = False
+
+    for row in rows:
+        try:
+            poraba = float(row.poraba)
+            cena = float(row.dinamicne_cene)
+            koncni_znesek += poraba * cena
+        except (ValueError, TypeError):
+            invalid_found = True
+
+    if invalid_found:
+        print("❌ At least one row has invalid data format.")
 
     new_racun = Racun(stranka_id=stranka_id, koncni_znesek=koncni_znesek)
     db.add(new_racun)

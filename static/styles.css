@@ -50,6 +50,12 @@
 .flex-1 {
   flex: 1;
 }
+.fullwidth {
+  width: 100%;
+}
+.height-tall {
+  height: 45px;
+}
 /* ==============================
    2. RESET & BASE
    ============================== */
@@ -184,12 +190,8 @@ nav a:hover {
   font-weight: bold;
   cursor: pointer;
   text-decoration: none;
-  width: auto;
   flex: 0 0 auto;
   transition: background-color 0.2s ease;
-}
-.fullwidth {
-  width: 100%;
 }
 .btn img {
   width: 18px;
