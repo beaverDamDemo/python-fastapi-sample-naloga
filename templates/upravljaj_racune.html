@@ -17,7 +17,7 @@ block content %}
         <td>{{ racun.id }}</td>
         <td>{{ racun.stranka_id }}</td>
         <td>{{ "%.2f"|format(racun.koncni_znesek) }}</td>
-        <td style="display: flex; gap: 10px; flex-direction: row">
+        <td class="action-buttons">
           <button
             class="btn btn-primary fullwidth"
             style="flex: 1"
@@ -26,9 +26,9 @@ block content %}
             👁️ Poglej
           </button>
           <form
+            class="flex-1"
             method="post"
             action="/racuni/{{ racun.id }}/delete"
-            style="flex: 1"
           >
             <button type="submit" class="btn btn-error fullwidth">
               🗑️ Izbriši

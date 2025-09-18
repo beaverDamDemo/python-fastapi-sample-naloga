@@ -20,16 +20,23 @@ content %}
         <td>{{ s.firstname }}</td>
         <td>{{ s.lastname }}</td>
         <td>{{ s.address }}</td>
-        <td style="display: flex; gap: 10px; flex-direction: row">
-          <a href="/stranke/{{ s.stranka_id }}/uredi" class="btn btn-primary"
-            >✏️ Uredi</a
+        <td class="action-buttons">
+          <button
+            class="btn btn-primary fullwidth"
+            style="flex: 1"
+            onclick="window.location.href='/stranke/{{ s.stranka_id }}/uredi'"
           >
+            ✏️ Uredi
+          </button>
           <form
+            class="flex-1"
             method="post"
             action="/stranke/{{ s.stranka_id }}/delete"
             onsubmit="return confirm('Are you sure?');"
           >
-            <button type="submit" class="btn btn-error">🗑️ Izbriši</button>
+            <button type="submit" class="btn btn-error fullwidth">
+              🗑️ Izbriši
+            </button>
           </form>
         </td>
       </tr>
