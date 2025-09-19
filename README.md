@@ -1,5 +1,29 @@
 ## Navodila za preizkus
 
+Prvo docker pull https://hub.docker.com/r/bluestern/mini-sistem-za-obracun-elektricne-energije
+v terminalu poženi
+` docker network create mynetwork`
+potem
+` docker run -d --name db --network mynetwork -e POSTGRES_USR=devuser -e POSTGRES_PASSWORD=password -e POSTGRES_DB=devdb postgres:16-alpine`
+potem
+
+```
+docker run -it -p 8000:8000 —network mynetwrok -v $(pwd)/.env:/app/.env bluestern/mini-sistem-za-obracun-elektricne-energije
+```
+
+Po tej proceduri, bi moralo delati, ampak csv-ji ne bodo še naloženi.
+Za naložiti (skrajšane) csv, container mora biti pognan v enem terminalu, v drugem terminalu pa se požene
+
+`docker exec -it <container_id> bash`
+Potem znotraj kontejnerja pa bi moralo bit na voljo za pognati:
+`python import-csv-to-db.py --env dev`
+
+Ko je to narejeno, se v browserju na localhost port 8000 klikne na
+
+- Upravljaj stranke, tam se strankam nastavi vsaj Ime in Priimek
+- potem se gre na Ustvari račun, se najde željeno stranko
+- in izbere, da se želi ustvariti račun
+
 ## Overview
 
 This is a FastAPI backend for managing invoices (`računi`) linked to clients (`stranke`). It supports PDF generation via WeasyPrint and CSV import for bulk data ingestion. Built with SQLAlchemy, Alembic, and Docker for reproducible development and deployment.
@@ -52,13 +76,17 @@ docker-compose -f docekr-compose.prod.yml up
 ## CSV import (new)
 
 ```
+
 docker-compose up
+
 ```
 
 and in another terminal
 
 ```
+
 docker-compose exec fastapi python import-csv-to-db.py --env dev
+
 ```
 
 it will generate some temporary fake stranka_id
@@ -68,7 +96,9 @@ it will generate some temporary fake stranka_id
 Currently you have to import the `.csv` files manually by running:
 
 ```
+
 import-csv-to-db.py
+
 ```
 
 It will "link" the CSV data with `stranka` based on the number in the `.csv` filename.
@@ -82,7 +112,9 @@ It will "link" the CSV data with `stranka` based on the number in the `.csv` fil
 ### Example
 
 ```
+
 ./venv/bin/pip install weasyprint
+
 ```
 
 ## Changes in table definitions
@@ -92,13 +124,17 @@ It will "link" the CSV data with `stranka` based on the number in the `.csv` fil
 You need to run migrations with Alembic. Make sure you're inside the virtual environment:
 
 ```
- ./venv/bin/alembic revision --autogenerate -m "Add new table"
+
+./venv/bin/alembic revision --autogenerate -m "Add new table"
+
 ```
 
 ### Apply migration
 
 ```
- ./venv/bin/alembic upgrade head
+
+./venv/bin/alembic upgrade head
+
 ```
 
 Make sure your models are imported in `alembic/env.py`.
@@ -118,3 +154,7 @@ Not implemented.
 
 - Importing multiple times the same csv currently is not notifying the user
 - add time
+
+```
+
+```
