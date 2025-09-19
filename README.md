@@ -1,3 +1,5 @@
+## Navodila za preizkus
+
 ## Overview
 
 This is a FastAPI backend for managing invoices (`računi`) linked to clients (`stranke`). It supports PDF generation via WeasyPrint and CSV import for bulk data ingestion. Built with SQLAlchemy, Alembic, and Docker for reproducible development and deployment.

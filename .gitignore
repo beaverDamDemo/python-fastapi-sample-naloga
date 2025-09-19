@@ -29,8 +29,7 @@ env/
 # -------------------------
 # Environment & secrets
 # -------------------------
-.env
-.env.*
+.env.prod
 !env.example   # keep a template if you want
 
 # -------------------------
