@@ -8,7 +8,9 @@ import argparse
 
 # --- CONFIG ---
 load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = (
+    os.getenv("DATABASE_URL") or "postgresql://devuser:password@localhost:5432/devdb"
+)
 
 CSV_FOLDER = os.path.dirname(os.path.abspath(__file__))  # same folder as script
 GREEN = "\033[92m"
@@ -142,7 +144,10 @@ def main():
     load_dotenv(dotenv_path=env_file)
 
     # Get the database URL
-    DATABASE_URL = os.getenv("DATABASE_URL")
+    DATABASE_URL = (
+        os.getenv("DATABASE_URL")
+        or "postgresql://devuser:password@localhost:5432/devdb"
+    )
     if not DATABASE_URL:
         print(f"{YELLOW}❌ DATABASE_URL not found in {env_file}{RESET}")
         return

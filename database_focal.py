@@ -15,7 +15,9 @@ from models.base import Base
 from models import stranke_model, racuni_model
 
 load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = (
+    os.getenv("DATABASE_URL") or "postgresql://devuser:password@localhost:5432/devdb"
+)
 print("Connecting to DATABASE_URL:", DATABASE_URL)
 print("Connecting to os.getenv(:", os.getenv("DATABASE_URL"))
 

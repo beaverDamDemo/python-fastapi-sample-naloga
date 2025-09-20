@@ -4,14 +4,12 @@ Prvo docker pull bluestern/mini-sistem-za-obracun-elektricne-energije
 v terminalu poženi
 ` docker network create mynetwork`
 potem
-` docker run -d --name db --network mynetwork -e POSTGRES_USR=devuser -e POSTGRES_PASSWORD=password -e POSTGRES_DB=devdb postgres:16-alpine`
+` docker run -d --name db --network mynetwork -e POSTGRES_USER=devuser -e POSTGRES_PASSWORD=password -e POSTGRES_DB=devdb postgres:16-alpine`
 potem
 
 ```
-docker run -it -p 8000:8000 —network mynetwrok -v $(pwd)/.env:/app/.env bluestern/mini-sistem-za-obracun-elektricne-energije
+ docker run -it --rm -p 8000:8000 -e DATABASE_URL=postgresql://devuser:password@db:5432/devdb --network mynetwork bluestern/mini-sistem-za-obracun-elektricne-energije:latest
 ```
-
-<!-- docker run -it --rm -p 8000:8000 -e DATABASE_URL=postgresql://devuser:password@db:5432/devdb --network mynetwork bluestern/mini-sistem-za-obracun-elektricne-energije:latest -->
 
 Po tej proceduri, bi moralo delati, ampak csv-ji ne bodo še naloženi.
 Za naložiti (skrajšane) csv, container mora biti pognan v enem terminalu, v drugem terminalu pa se požene
@@ -156,7 +154,7 @@ Not implemented.
 # TODO
 
 - Importing multiple times the same csv currently is not notifying the user
-- add time
+- DATABASE_URL many times cannot be read when running within docker
 
 ```
 
