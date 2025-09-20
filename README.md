@@ -1,20 +1,40 @@
 ## Navodila za preizkus
 
-Prvo docker pull bluestern/mini-sistem-za-obracun-elektricne-energije
-v terminalu poženi
-` docker network create mynetwork`
-potem
-` docker run -d --name db --network mynetwork -e POSTGRES_USER=devuser -e POSTGRES_PASSWORD=password -e POSTGRES_DB=devdb postgres:16-alpine`
+Prvo
+
+```
+docker pull bluestern/mini-sistem-za-obracun-elektricne-energije
+```
+
 potem
 
 ```
- docker run -it --rm -p 8000:8000 -e DATABASE_URL=postgresql://devuser:password@db:5432/devdb --network mynetwork bluestern/mini-sistem-za-obracun-elektricne-energije:latest
+docker network create mynetwork
+
+```
+
+potem
+
+```
+docker run -d --name db --network mynetwork -e POSTGRES_USER=devuser -e POSTGRES_PASSWORD=password -e POSTGRES_DB=devdb postgres:16-alpine
+
+```
+
+potem
+
+```
+
+docker run -it --rm -p 8000:8000 -e DATABASE_URL=postgresql://devuser:password@db:5432/devdb --network mynetwork bluestern/mini-sistem-za-obracun-elektricne-energije:latest
+
 ```
 
 Po tej proceduri, bi moralo delati, ampak csv-ji ne bodo še naloženi.
 Za naložiti (skrajšane) csv, container mora biti pognan v enem terminalu, v drugem terminalu pa se požene
 
-`docker exec -it <container_id> bash`
+```
+docker exec -it <container_id> bash
+```
+
 Potem znotraj kontejnerja pa bi moralo bit na voljo za pognati:
 `python import-csv-to-db.py --env dev`
 
@@ -155,6 +175,10 @@ Not implemented.
 
 - Importing multiple times the same csv currently is not notifying the user
 - DATABASE_URL many times cannot be read when running within docker
+
+```
+
+```
 
 ```
 
