@@ -21,6 +21,17 @@ block content %}
 
   <section class="invoice-details">
     <h3>Podatki o računu</h3>
+    <p>
+      <strong>Obdobje od:</strong>
+      {{ racun.period_start.strftime("%d.%m.%Y %H:%M") if racun.period_start
+      else "—" }}
+    </p>
+    <p>
+      <strong>Obdobje do:</strong>
+      {{ racun.period_end.strftime("%d.%m.%Y %H:%M") if racun.period_end else
+      "—" }}
+    </p>
+
     <table>
       <thead>
         <tr>
@@ -43,13 +54,6 @@ block content %}
 
   <div class="invoice-actions">
     <a href="/upravljaj_racune" class="btn btn-primary">⬅ Nazaj</a>
-    <!-- <a href="/racuni/{{ racun.id }}/pdf" class="btn btn-action">
-      Shrani v PDF
-      <img
-        src="{{ url_for('static', path='icons/icons8-pdf-50.png') }}"
-        alt="PDF"
-      />
-    </a> -->
     <a href="/racuni/{{ racun.id }}/pdf" class="btn btn-primary">
       Shrani v PDF
       <img

@@ -7,7 +7,9 @@ block content %}
       <tr>
         <th>ID</th>
         <th>Stranka ID</th>
-        <th>Koncni Znesek</th>
+        <th>Začetek obdobja</th>
+        <th>Konec obdobja</th>
+        <th>Končni Znesek</th>
         <th>Akcije</th>
       </tr>
     </thead>
@@ -16,6 +18,14 @@ block content %}
       <tr>
         <td>{{ racun.id }}</td>
         <td>{{ racun.stranka_id }}</td>
+        <td>
+          {{ racun.period_start.strftime("%Y-%m-%d %H:%M") if racun.period_start
+          else "-" }}
+        </td>
+        <td>
+          {{ racun.period_end.strftime("%Y-%m-%d %H:%M") if racun.period_end
+          else "-" }}
+        </td>
         <td>{{ "%.2f"|format(racun.koncni_znesek) }}</td>
         <td class="action-buttons">
           <button

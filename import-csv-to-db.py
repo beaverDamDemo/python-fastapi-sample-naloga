@@ -75,7 +75,7 @@ def import_csv_to_db(csv_path, stranka_id, DATABASE_URL):
     cur.execute("SELECT COUNT(*) FROM fastapi_tmp_import;")
     row_count = cur.fetchone()[0]
 
-    # 4. Insert into main table with fixed stranka_id
+    # Insert into main table with fixed stranka_id
     cur.execute(
         """
         INSERT INTO fastapi_vhodni_podatki (casovna_znacka, poraba, dinamicne_cene, stranka_id)
@@ -89,13 +89,35 @@ def import_csv_to_db(csv_path, stranka_id, DATABASE_URL):
         (stranka_id,),
     )
 
+    # Compute period_start, period_end, and total
+    cur.execute(
+        """
+        SELECT MIN(casovna_znacka), MAX(casovna_znacka), SUM(poraba * dinamicne_cene)
+        FROM fastapi_vhodni_podatki
+        WHERE stranka_id = %s;
+        """,
+        (stranka_id,),
+    )
+    period_start, period_end, koncni_znesek = cur.fetchone()
+
+    # 6. Insert into racuni table
+    cur.execute(
+        """
+        INSERT INTO fastapi_racuni (stranka_id, period_start, period_end, koncni_znesek)
+        VALUES (%s, %s, %s, %s)
+        RETURNING id;
+        """,
+        (stranka_id, period_start, period_end, koncni_znesek),
+    )
+    racun_id = cur.fetchone()[0]
+
     conn.commit()
     cur.close()
     conn.close()
 
-    # 5. Log to terminal (green for success)
     print(
-        f"{GREEN}✅ Imported {row_count} rows from '{os.path.basename(csv_path)}' with stranka_id={stranka_id}{RESET}"
+        f"{GREEN}✅ Imported {row_count} rows for stranka_id={stranka_id}, "
+        f"created racun_id={racun_id} with period {period_start} → {period_end}{RESET}"
     )
     return row_count
 

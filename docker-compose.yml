@@ -1,3 +1,4 @@
+
 services:
   fastapi:
     image: fastapi-app
@@ -11,3 +12,20 @@ services:
       - .:/app
     working_dir: /app
     command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    depends_on:
+      - db   # wait for db service
+
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: devdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

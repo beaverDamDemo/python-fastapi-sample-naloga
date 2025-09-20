@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+from typing import Optional
+from datetime import datetime
 
 
 class RacunCreate(BaseModel):
@@ -9,6 +11,8 @@ class RacunCreate(BaseModel):
 class RacunOut(BaseModel):
     id: int
     stranka_id: int
+    period_start: Optional[datetime] = None
+    period_end: Optional[datetime] = None
     koncni_znesek: float
 
     class Config:

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, ForeignKey
+from sqlalchemy import Column, Integer, Float, ForeignKey, DateTime
 from models.base import Base
 
 
@@ -11,4 +11,6 @@ class Racun(Base):
         ForeignKey("fastapi_stranke.stranka_id", ondelete="CASCADE"),
         nullable=False,
     )
+    period_start = Column(DateTime, nullable=True)
+    period_end = Column(DateTime, nullable=True)
     koncni_znesek = Column(Float, nullable=False)
