@@ -1,6 +1,6 @@
 ## Navodila za preizkus
 
-Prvo docker pull https://hub.docker.com/r/bluestern/mini-sistem-za-obracun-elektricne-energije
+Prvo docker pull bluestern/mini-sistem-za-obracun-elektricne-energije
 v terminalu poženi
 ` docker network create mynetwork`
 potem
@@ -11,6 +11,8 @@ potem
 docker run -it -p 8000:8000 —network mynetwrok -v $(pwd)/.env:/app/.env bluestern/mini-sistem-za-obracun-elektricne-energije
 ```
 
+<!-- docker run -it --rm -p 8000:8000 -e DATABASE_URL=postgresql://devuser:password@db:5432/devdb --network mynetwork bluestern/mini-sistem-za-obracun-elektricne-energije:latest -->
+
 Po tej proceduri, bi moralo delati, ampak csv-ji ne bodo še naloženi.
 Za naložiti (skrajšane) csv, container mora biti pognan v enem terminalu, v drugem terminalu pa se požene
 
@@ -18,8 +20,9 @@ Za naložiti (skrajšane) csv, container mora biti pognan v enem terminalu, v dr
 Potem znotraj kontejnerja pa bi moralo bit na voljo za pognati:
 `python import-csv-to-db.py --env dev`
 
-Ko je to narejeno, se v browserju na localhost port 8000 klikne na
+## Ko je to narejeno, se v browserju na localhost port 8000 klikne na
 
+- Upravljaj račune, narejeni bodo računi za stranke iz csv
 - Upravljaj stranke, tam se strankam nastavi vsaj Ime in Priimek
 - potem se gre na Ustvari račun, se najde željeno stranko
 - in izbere, da se želi ustvariti račun

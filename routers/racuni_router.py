@@ -90,7 +90,18 @@ def handle_form(
     if invalid_found:
         print("❌ At least one row has invalid data format.")
 
-    new_racun = Racun(stranka_id=stranka_id, koncni_znesek=koncni_znesek)
+    timestamps = [row.casovna_znacka for row in rows if row.casovna_znacka]
+
+    # Compute period boundaries
+    period_start = min(timestamps)
+    period_end = max(timestamps)
+
+    new_racun = Racun(
+        stranka_id=stranka_id,
+        koncni_znesek=koncni_znesek,
+        period_start=period_start,
+        period_end=period_end,
+    )
     db.add(new_racun)
     db.commit()
     db.refresh(new_racun)
