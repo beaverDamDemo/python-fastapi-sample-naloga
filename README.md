@@ -65,15 +65,8 @@ This is a FastAPI backend for managing invoices (`računi`) linked to clients (`
 - `routers/` – API route definitions
 - `alembic/` – Database migrations
 - `import-csv-to-db.py` – CSV import script
-- `docker-compose.yml` – Development setup
+- `docker-compose.dev.yml` – Development setup
 - `docker-compose.prod.yml` – Production setup
-- `docker-compose.override.yml` – Continue reading...
-
-## Docker Compose override
-
-By default, Docker Compose automatically loads `docker-compose.override.yml` alongside `docker-compose.yml`. This is useful for local development overrides (e.g. mounting volumes, enabling debug mode, or exposing ports).
-
-If you're using `docker-compose.prod.yml` for production, you don't need to care about the override file.
 
 ## Running the app
 
@@ -87,12 +80,13 @@ uvicorn.exe main:app --reload
 
 #### Development
 
-docker-compose up --build
+docker-compose -f docker-compose.dev.yml build
+docker-compose -f docker-compose.dev.yml up
 
 #### Production
 
-docker-compose -f docekr-compose.prod.yml build
-docker-compose -f docekr-compose.prod.yml up
+docker-compose -f docker-compose.prod.yml build
+docker-compose -f docker-compose.prod.yml up
 
 ## CSV import (new)
 
@@ -149,6 +143,8 @@ You need to run migrations with Alembic. Make sure you're inside the virtual env
 ./venv/bin/alembic revision --autogenerate -m "Add new table"
 
 ```
+
+For the production live database, you may need to enter changes manually, e.g. with pgAdmin
 
 ### Apply migration
 
