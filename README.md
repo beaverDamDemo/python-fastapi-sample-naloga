@@ -16,7 +16,7 @@ docker network create mynetwork
 potem
 
 ```
-docker run -d --name db --network mynetwork -e POSTGRES_USER=devuser -e POSTGRES_PASSWORD=password -e POSTGRES_DB=devdb postgres:16-alpine
+docker run -d --name db --network mynetwork -e POSTGRES_USER=devuser -e POSTGRES_PASSWORD=password -e POSTGRES_DB=devdb postgres:17-alpine
 
 ```
 
